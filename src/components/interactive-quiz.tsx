@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BrainCircuit, Lightbulb, TriangleAlert, CheckCircle, XCircle, Gamepad2, Sparkles, Dices } from 'lucide-react';
 
-const initialState: GenerateQuizState = {
+const initialQuizState: GenerateQuizState = {
   quiz: null,
 };
 
@@ -54,9 +54,12 @@ function QuizForm({ topic, quiz }: { topic: string; quiz: NonNullable<GenerateQu
     }));
   };
 
-  const score = quiz.questions.reduce((acc, question, index) => {
-    return selectedAnswers[index] === question.answer ? acc + 1 : acc;
-  }, 0);
+  const score = React.useMemo(() => {
+    if (!submitted) return 0;
+    return quiz.questions.reduce((acc, question, index) => {
+      return selectedAnswers[index] === question.answer ? acc + 1 : acc;
+    }, 0);
+  }, [submitted, quiz.questions, selectedAnswers]);
 
   if (submitted) {
      return (
@@ -85,7 +88,7 @@ function QuizForm({ topic, quiz }: { topic: string; quiz: NonNullable<GenerateQu
                     </div>
                 ))}
             </div>
-             <form action={getQuiz.bind(null, initialState)} className="mt-4">
+             <form action={getQuiz.bind(null, initialQuizState)} className="mt-4">
                  <input type="hidden" name="topic" value={topic} />
                  <GenerateButton topic={topic} />
              </form>
@@ -119,7 +122,11 @@ function QuizForm({ topic, quiz }: { topic: string; quiz: NonNullable<GenerateQu
 }
 
 export function InteractiveQuiz({ topic }: { topic: string }) {
-  const [state, formAction] = useFormState(getQuiz, initialState);
+  const [state, formAction] = useFormState(getQuiz, initialQuizState);
+
+  // This key forces React to re-mount the QuizForm component when a new quiz is generated
+  // which resets its internal state (selectedAnswers, submitted).
+  const formKey = React.useMemo(() => state.quiz ? JSON.stringify(state.quiz.questions[0]) : topic, [state.quiz, topic]);
 
   if (!state.quiz) {
     return (
@@ -136,7 +143,7 @@ export function InteractiveQuiz({ topic }: { topic: string }) {
     );
   }
 
-  const { title, questions } = state.quiz;
+  const { title } = state.quiz;
 
   return (
     <Card className="mt-6 bg-background/50">
@@ -147,7 +154,7 @@ export function InteractiveQuiz({ topic }: { topic: string }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <QuizForm topic={topic} quiz={state.quiz} />
+        <QuizForm key={formKey} topic={topic} quiz={state.quiz} />
       </CardContent>
     </Card>
   );
