@@ -17,6 +17,10 @@ import { roadmapData, Section, Phase, Week, Task, Guide, ResourceCardData } from
 import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { auth, db } from '@/lib/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+
 
 const sectionIcons: { [key: string]: React.ElementType } = {
   'Phase 1': DollarSign,
@@ -52,6 +56,7 @@ const priorityBadgeVariant = {
 } as const;
 
 export default function Home() {
+  const [user, loading] = useAuthState(auth);
   const [completedTasks, setCompletedTasks] = React.useState<Set<string>>(new Set());
   const [notes, setNotes] = React.useState<{ [key: string]: string }>({});
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -73,45 +78,61 @@ export default function Home() {
   const totalTasks = allTasks.length;
 
   React.useEffect(() => {
-    const storedProgress = localStorage.getItem('cybersecurityProgress');
-    const storedNotes = localStorage.getItem('cybersecurityNotes');
-    if (storedProgress) {
-      setCompletedTasks(new Set(JSON.parse(storedProgress)));
+    if (user) {
+      const docRef = doc(db, 'users', user.uid);
+      getDoc(docRef).then(docSnap => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setCompletedTasks(new Set(data.completedTasks || []));
+          setNotes(data.notes || {});
+        }
+        setIsLoaded(true);
+      });
+    } else if (!loading) {
+      const storedProgress = localStorage.getItem('cybersecurityProgress');
+      const storedNotes = localStorage.getItem('cybersecurityNotes');
+      if (storedProgress) {
+        setCompletedTasks(new Set(JSON.parse(storedProgress)));
+      }
+      if (storedNotes) {
+        setNotes(JSON.parse(storedNotes));
+      }
+      setIsLoaded(true);
     }
-    if (storedNotes) {
-      setNotes(JSON.parse(storedNotes));
-    }
-    setIsLoaded(true);
-  }, []);
+  }, [user, loading]);
 
-  React.useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('cybersecurityProgress', JSON.stringify(Array.from(completedTasks)));
-      localStorage.setItem('cybersecurityNotes', JSON.stringify(notes));
+  const saveData = async (newCompletedTasks: Set<string>, newNotes: { [key: string]: string }) => {
+    if (user) {
+      const docRef = doc(db, 'users', user.uid);
+      await setDoc(docRef, { completedTasks: Array.from(newCompletedTasks), notes: newNotes }, { merge: true });
+    } else {
+      localStorage.setItem('cybersecurityProgress', JSON.stringify(Array.from(newCompletedTasks)));
+      localStorage.setItem('cybersecurityNotes', JSON.stringify(newNotes));
     }
-  }, [completedTasks, notes, isLoaded]);
+  };
 
   const handleTaskToggle = (taskId: string) => {
-    setCompletedTasks(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(taskId)) {
-        newSet.delete(taskId);
-      } else {
-        newSet.add(taskId);
-      }
-      return newSet;
-    });
+    const newSet = new Set(completedTasks);
+    if (newSet.has(taskId)) {
+      newSet.delete(taskId);
+    } else {
+      newSet.add(taskId);
+    }
+    setCompletedTasks(newSet);
+    saveData(newSet, notes);
   };
   
   const handleNoteChange = (weekId: string, value: string) => {
-    setNotes(prev => ({ ...prev, [weekId]: value }));
+    const newNotes = { ...notes, [weekId]: value };
+    setNotes(newNotes);
+    saveData(completedTasks, newNotes);
   };
 
   const progressPercentage = totalTasks > 0 ? Math.round((completedTasks.size / totalTasks) * 100) : 0;
   const currentWeek = totalTasks > 0 ? Math.min(24, Math.floor((completedTasks.size / (totalTasks / 24))) + 1) : 1;
   const estimatedSalary = 2000 + (progressPercentage * 40);
 
-  if (!isLoaded) {
+  if (!isLoaded || loading) {
     return <div className="flex h-screen items-center justify-center bg-background text-foreground">Loading...</div>;
   }
 
