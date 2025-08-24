@@ -45,7 +45,7 @@ const prompt = ai.definePrompt({
   Provide your suggestions in a well-structured format.
 
   Write-up:
-  {{writeupText}}`,
+  {{{writeupText}}}`,
 });
 
 const improveWriteupFlow = ai.defineFlow(
