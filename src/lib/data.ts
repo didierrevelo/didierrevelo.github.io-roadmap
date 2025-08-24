@@ -43,6 +43,55 @@ export type Section = Guide | {
   phases: Phase[];
 };
 
+const englishPlanContent: Guide = {
+  id: 'english-plan',
+  title: '🇬🇧 Plan de Inglés: De Cero a Bilingüe Técnico en 6 Meses',
+  gradient: 'bg-gradient-to-br from-blue-500 to-sky-600',
+  description: 'Este plan está diseñado para la inmersión total y la fluidez conversacional, enfocado en el contexto de ciberseguridad. Olvídate de apps, enfócate en la práctica real.',
+  resources: [
+    {
+      title: 'Listening & Comprensión Activa',
+      icon: 'Headphones',
+      items: [
+        'Podcasts: Darknet Diaries, Security Now, Risky Business.',
+        'Canales de YouTube: NetworkChuck, The Cyber Mentor, IppSec, John Hammond (verlos sin subtítulos).',
+        'Series y Películas: Mr. Robot, Black Mirror, WarGames (en inglés con subtítulos en inglés).',
+        'Técnica: Escucha un podcast por 10 minutos, luego intenta resumir en voz alta lo que entendiste.',
+      ],
+    },
+    {
+      title: 'Speaking & Fluidez Práctica',
+      icon: 'Mic',
+      items: [
+        'Shadowing: Escoge un video de 5 min de NetworkChuck. Repite en voz alta todo lo que dice, imitando su entonación y velocidad.',
+        'Think in English: Narra tus acciones diarias en tu mente, en inglés. "Now I\'m opening my Kali VM to start the new lab".',
+        'Plataformas de Conversación: Usa Cambly o italki para hablar con nativos. Enfócate en temas técnicos.',
+        'Comunidades: Participa activamente en los canales de voz de Discord de HTB o TryHackMe.',
+      ],
+    },
+    {
+      title: 'Reading & Vocabulario Técnico',
+      icon: 'BookOpen',
+      items: [
+        'Documentación: Lee la documentación oficial de herramientas como Nmap, Metasploit, Burp Suite.',
+        'Artículos: Sigue blogs como Krebs on Security, The Hacker News, y Bleeping Computer.',
+        'Libros: "The Cuckoo\'s Egg", "Ghost in the Wires", "Sandworm" (lectura recreativa pero útil).',
+        'Técnica: Crea tu propio diccionario de términos técnicos en Notion o Anki con definiciones y ejemplos.',
+      ],
+    },
+     {
+      title: 'Herramientas de Apoyo',
+      icon: 'Settings',
+      items: [
+        'Diccionario: WordReference para contexto y sinónimos.',
+        'Gramática: Grammarly (versión gratuita) para corregir tus write-ups y correos.',
+        'Pronunciación: YouGlish, busca una palabra y te muestra videos de YouTube donde se pronuncia.',
+        'Traductor: DeepL para frases complejas, pero úsalo con moderación. El objetivo es pensar en inglés.',
+      ],
+    },
+  ],
+};
+
 
 const writeupGuideContent: Guide = {
     id: 'writeup-guide',
@@ -298,6 +347,8 @@ export const roadmapData: Section[] = [
       }
     ],
   },
+  englishPlanContent,
   writeupGuideContent,
   writeupImproverGuide,
 ];
+    
