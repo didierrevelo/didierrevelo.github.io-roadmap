@@ -2,14 +2,14 @@
 
 import * as React from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { getSuggestions, type FormState } from '@/app/actions';
+import { getSuggestions, type ImproveWriteupFormState } from '@/app/actions';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BrainCircuit, Lightbulb, TriangleAlert } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
-const initialState: FormState = {
+const initialState: ImproveWriteupFormState = {
   message: '',
   suggestions: null,
   errors: null,
@@ -67,10 +67,18 @@ export function WriteupImprover() {
         <SubmitButton />
       </form>
 
-      {state.message && !state.suggestions && (
-         <Alert variant={state.errors ? "destructive" : "default"} className="mt-4">
+      {state.message && !state.suggestions && !state.errors && (
+         <Alert variant={"default"} className="mt-4">
             <TriangleAlert className="h-4 w-4" />
-            <AlertTitle>{state.errors ? "Error" : "Notice"}</AlertTitle>
+            <AlertTitle>{"Notice"}</AlertTitle>
+            <AlertDescription>{state.message}</AlertDescription>
+         </Alert>
+      )}
+      
+      {state.message && state.errors && (
+         <Alert variant={"destructive"} className="mt-4">
+            <TriangleAlert className="h-4 w-4" />
+            <AlertTitle>{"Error"}</AlertTitle>
             <AlertDescription>{state.message}</AlertDescription>
          </Alert>
       )}
@@ -91,3 +99,5 @@ export function WriteupImprover() {
     </div>
   );
 }
+
+    

@@ -1,13 +1,14 @@
 'use server';
 
 import { improveWriteup } from '@/ai/flows/improve-writeup-gen-ai';
+import { generateQuiz, type GenerateQuizOutput } from '@/ai/flows/generate-quiz-flow';
 import { z } from 'zod';
 
-const schema = z.object({
+const improveWriteupSchema = z.object({
   writeupText: z.string().min(50, { message: 'Please provide a more detailed write-up (at least 50 characters).' }),
 });
 
-export type FormState = {
+export type ImproveWriteupFormState = {
   message: string;
   suggestions: string | null;
   errors: {
@@ -16,10 +17,10 @@ export type FormState = {
 };
 
 export async function getSuggestions(
-  prevState: FormState,
+  prevState: ImproveWriteupFormState,
   formData: FormData
-): Promise<FormState> {
-  const validatedFields = schema.safeParse({
+): Promise<ImproveWriteupFormState> {
+  const validatedFields = improveWriteupSchema.safeParse({
     writeupText: formData.get('writeupText'),
   });
 
@@ -47,3 +48,45 @@ export async function getSuggestions(
     };
   }
 }
+
+const generateQuizSchema = z.object({
+  topic: z.string(),
+});
+
+export type GenerateQuizState = {
+  quiz: GenerateQuizOutput | null;
+  error?: string;
+  topic?: string;
+};
+
+export async function getQuiz(
+  prevState: GenerateQuizState,
+  formData: FormData
+): Promise<GenerateQuizState> {
+  const validatedFields = generateQuizSchema.safeParse({
+    topic: formData.get('topic'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      quiz: null,
+      error: 'Invalid topic provided.',
+    };
+  }
+  
+  const topic = validatedFields.data.topic;
+
+  try {
+    const quiz = await generateQuiz({ topic });
+    return { quiz, topic, error: undefined };
+  } catch (error) {
+    console.error('Quiz Generation Error:', error);
+    return {
+      quiz: null,
+      topic,
+      error: 'Failed to generate the quiz. The AI might be busy, please try again in a moment.',
+    };
+  }
+}
+
+    

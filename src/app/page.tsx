@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { CodeBlock } from '@/components/code-block';
 import { WriteupImprover } from '@/components/writeup-improver';
+import { InteractiveQuiz } from '@/components/interactive-quiz';
 import { roadmapData, Section, Phase, Week, Task, Guide, ResourceCardData } from '@/lib/data';
 import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
@@ -266,6 +267,8 @@ export default function Home() {
             {week.tasks.map(renderTask)}
             {week.resources && <div className="flex flex-wrap gap-4 my-4">{week.resources.map(renderResourceCard)}</div>}
             
+            <InteractiveQuiz topic={week.quizTopic || week.title} />
+
             <div className="mt-6">
               <h4 className="font-semibold text-base mb-2 flex items-center gap-2 text-primary">
                 <StickyNote className="w-5 h-5"/>

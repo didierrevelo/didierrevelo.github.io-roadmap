@@ -16,6 +16,7 @@ export interface Week {
   id:string;
   title: string;
   description?: string;
+  quizTopic?: string;
   tasks: Task[];
   resources?: ResourceCardData[];
 }
@@ -224,6 +225,7 @@ export const roadmapData: Section[] = [
           {
             id: 'week1',
             title: 'Week 1: Setup and First Earnings',
+            quizTopic: 'Freelancing, LinkedIn Optimization, and Hacking Lab Setup',
             description: 'Lay the groundwork for your freelance career and start your practical cybersecurity training.',
             tasks: [
               { id: 't1_1', content: 'Create compelling freelance profiles on Workana, Upwork, and Freelancer. Focus your bio on "Security Code Review" and "Secure Development Practices". Showcase your developer background as a strength.', priority: 'high' },
@@ -247,6 +249,7 @@ export const roadmapData: Section[] = [
           {
             id: 'week2',
             title: 'Week 2: First Projects and HTB Basics',
+            quizTopic: 'Hack The Box Methodology, Networking Fundamentals, and Nmap',
             description: 'Gain practical experience with your first paid project and begin your journey on Hack The Box.',
             tasks: [
                 { id: 't2_1', content: 'Land and complete your first freelance project. Over-deliver on quality and communication. Upon completion, politely ask for a positive review or testimonial.', priority: 'high' },
@@ -270,6 +273,7 @@ export const roadmapData: Section[] = [
           {
             id: 'week3',
             title: 'Week 3: Scaling Freelance + Web Security',
+            quizTopic: 'OWASP Top 10, Burp Suite Basics, and Web Enumeration',
             description: 'Increase your freelance income while diving into web application security, a natural fit for your developer skills.',
             tasks: [
                 { id: 't3_1', content: 'Set a freelance income goal of $500 USD for the month. Apply to 15 more projects, refining your proposals based on what you\'ve learned.', priority: 'high' },
@@ -293,6 +297,7 @@ export const roadmapData: Section[] = [
           {
             id: 'week4',
             title: 'Week 4: Consolidation and Specialization',
+            quizTopic: 'Career Specializations, Portfolio Building, and Personal Branding',
             description: 'Review your progress, solidify your knowledge, and start thinking about your long-term career path.',
             tasks: [
                 { id: 't4_1', content: 'Review your finances. Did you hit your $500-800 USD goal? Analyze what worked and create a plan to increase your rates or efficiency for Month 2.', priority: 'high' },
@@ -322,6 +327,7 @@ export const roadmapData: Section[] = [
           {
             id: 'month2',
             title: 'Month 2: Web Application Security (Weeks 5-8)',
+            quizTopic: 'Advanced Web Attacks, PortSwigger Academy, SQL Injection, and XSS',
             description: 'Deep dive into web vulnerabilities, leveraging your development background for a strong AppSec foundation.',
             tasks: [
                 { id: 't5_1', content: 'Scale your freelance work. Target $1000 USD this month by specializing in "security code review" and "API pentesting" services.', priority: 'high' },
@@ -338,6 +344,7 @@ export const roadmapData: Section[] = [
           {
             id: 'month3',
             title: 'Month 3: Network Security & Pentesting (Weeks 9-12)',
+            quizTopic: 'Active Directory Pentesting, Metasploit Framework, and eJPT Preparation',
             description: 'Expand from web to network-level attacks, including the critical area of Active Directory.',
             tasks: [
                 { id: 't6_1', content: 'Complete the "Pentesting Fundamentals" and "Network Enumeration with Nmap" modules on HTB Academy.', priority: 'high' },
@@ -360,6 +367,7 @@ export const roadmapData: Section[] = [
             {
                 id: 'month4',
                 title: 'Month 4: Incident Response & Blue Team (Weeks 13-16)',
+                quizTopic: 'Incident Response Process, SIEM analysis with ELK Stack, and Defensive Mindset',
                 description: 'Understand the defensive side of security to become a more effective attacker and well-rounded professional.',
                 tasks: [
                     { id: 't7_1', content: 'Learn the fundamentals of defense. Complete the HTB Academy "Incident Handling Process" module.', priority: 'high' },
@@ -375,6 +383,7 @@ export const roadmapData: Section[] = [
             {
                 id: 'month5',
                 title: 'Month 5: Cloud Security & Modern Threats (Weeks 17-20)',
+                quizTopic: 'AWS Cloud Security, Container Security with Docker & Kubernetes',
                 description: 'Focus on high-demand, modern skills in cloud and container security.',
                 tasks: [
                     { id: 't8_1', content: 'Learn AWS fundamentals. Complete the "Introduction to Cloud Computing" module in HTB Academy and the AWS Skills Builder "Cloud Essentials" learning path.', priority: 'high' },
@@ -396,6 +405,7 @@ export const roadmapData: Section[] = [
             {
                 id: 'month6',
                 title: 'Month 6: Full-Time Security Professional (Weeks 21-24)',
+                quizTopic: 'Resume Optimization, Interview Skills, and Salary Negotiation',
                 description: 'Transition from freelancing and studying to landing your first full-time role in cybersecurity.',
                 tasks: [
                     { id: 't9_1', content: 'Optimize your resume. Tailor your CV for cybersecurity roles. Use the STAR method (Situation, Task, Action, Result) to describe your freelance projects and HTB experience.', priority: 'high' },
