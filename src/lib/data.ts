@@ -13,7 +13,7 @@ export interface ResourceCardData {
 }
 
 export interface Week {
-  id: string;
+  id:string;
   title: string;
   description?: string;
   tasks: Task[];
@@ -224,21 +224,22 @@ export const roadmapData: Section[] = [
           {
             id: 'week1',
             title: 'Week 1: Setup and First Earnings',
+            description: 'Lay the groundwork for your freelance career and start your practical cybersecurity training.',
             tasks: [
-              { id: 't1_1', content: 'Create freelance profiles: Workana, Upwork, Freelancer (focus on security code review)', priority: 'high' },
-              { id: 't1_2', content: 'Optimize LinkedIn: Add "Security-focused Developer" in headline', priority: 'high' },
-              { id: 't1_3', content: 'Apply to 10 projects: API security testing, code review, vulnerability assessment', priority: 'medium' },
-              { id: 't1_4', content: 'Setup Hack The Box: Configure VPN, Kali VM, take notes on the first lab', priority: 'medium' },
-              { id: 't1_5', content: 'Technical English: 1 hour daily watching NetworkChuck videos (cybersecurity + English)', priority: 'low' },
+              { id: 't1_1', content: 'Create compelling freelance profiles on Workana, Upwork, and Freelancer. Focus your bio on "Security Code Review" and "Secure Development Practices". Showcase your developer background as a strength.', priority: 'high' },
+              { id: 't1_2', content: 'Optimize your LinkedIn profile. Change your headline to "Security-Focused Software Developer". Write a summary explaining your transition and skills. Ask for recommendations from past colleagues.', priority: 'high' },
+              { id: 't1_3', content: 'Actively apply to 10 projects. Search for keywords like "API security testing," "code review," "vulnerability assessment," and "WordPress security." Tailor each proposal.', priority: 'medium' },
+              { id: 't1_4', content: 'Set up your hacking lab: Install Kali Linux in a VM (VirtualBox/VMware). Configure the Hack The Box VPN. Complete the starting point lab to ensure connectivity.', priority: 'medium' },
+              { id: 't1_5', content: 'Begin your technical English immersion. Watch one NetworkChuck video daily. Take notes on new vocabulary related to cybersecurity.', priority: 'low' },
             ],
             resources: [
               {
                 title: 'Foundational Knowledge',
                 icon: 'BookOpen',
                 items: [
-                  'Libro: "The Millionaire Fastlane" (para mentalidad de negocio)',
-                  'Artículo: "How to Start a Freelance Business" (HubSpot)',
-                  'Herramienta: Notion para organizar aplicaciones y notas.',
+                  'Book: "The Millionaire Fastlane" (for business mindset)',
+                  'Article: "How to Start a Freelance Business" (HubSpot)',
+                  'Tool: Notion for organizing applications and notes.',
                 ],
               },
             ],
@@ -246,21 +247,22 @@ export const roadmapData: Section[] = [
           {
             id: 'week2',
             title: 'Week 2: First Projects and HTB Basics',
+            description: 'Gain practical experience with your first paid project and begin your journey on Hack The Box.',
             tasks: [
-                { id: 't2_1', content: 'Complete first freelance project: Deliver with quality, ask for a testimonial', priority: 'high' },
-                { id: 't2_2', content: 'HTB Academy: Complete "Introduction to Networking" (free)', priority: 'high' },
-                { id: 't2_3', content: 'First write-up: Solve "Legacy" machine (Windows easy) and document', priority: 'medium' },
-                { id: 't2_4', content: 'GitHub Security: Create "security-learning" repo with your scripts and notes', priority: 'medium' },
-                { id: 't2_5', content: 'English: Participate in HTB forums in English, make 3 technical comments', priority: 'low' },
+                { id: 't2_1', content: 'Land and complete your first freelance project. Over-deliver on quality and communication. Upon completion, politely ask for a positive review or testimonial.', priority: 'high' },
+                { id: 't2_2', content: 'Complete the "Introduction to Networking" module on HTB Academy. This is a crucial free resource to solidify your fundamentals.', priority: 'high' },
+                { id: 't2_3', content: 'Solve the "Legacy" machine (Windows, Easy). Document every step of your process: reconnaissance, enumeration, exploitation, and privilege escalation. This will be your first write-up.', priority: 'medium' },
+                { id: 't2_4', content: 'Create a dedicated "security-learning" repository on GitHub. Push your notes, custom scripts, and link to your write-ups. This will become part of your portfolio.', priority: 'medium' },
+                { id: 't2_5', content: 'Engage with the community. Go to the HTB forums or Discord and make 3 meaningful comments in English on other people\'s questions or solutions.', priority: 'low' },
             ],
              resources: [
               {
                 title: 'Core Skills',
                 icon: 'Swords',
                 items: [
-                  'Guía: "Nmap Cheat Sheet" (StationX)',
+                  'Guide: "Nmap Cheat Sheet" (StationX)',
                   'Video: "How to Get Your First Box on Hack The Box" (IppSec)',
-                  'Documentación: Obsidian.md para crear tu "Second Brain".',
+                  'Tool: Obsidian.md to create your "Second Brain" for notes.',
                 ],
               },
             ],
@@ -268,21 +270,22 @@ export const roadmapData: Section[] = [
           {
             id: 'week3',
             title: 'Week 3: Scaling Freelance + Web Security',
+            description: 'Increase your freelance income while diving into web application security, a natural fit for your developer skills.',
             tasks: [
-                { id: 't3_1', content: 'Freelance goal: $500 USD this month - apply to 15 more projects', priority: 'high' },
-                { id: 't3_2', content: 'HTB Academy: "Web Attacks" module - leverage your web experience', priority: 'high' },
-                { id: 't3_3', content: 'OWASP Top 10: Study and create practical examples with your projects', priority: 'medium' },
-                { id: 't3_4', content: 'Write-up #2: "Blue" machine (Windows SMB vulnerability)', priority: 'medium' },
-                { id: 't3_5', content: 'Networking: Connect with 10 Colombian security professionals on LinkedIn', priority: 'low' },
+                { id: 't3_1', content: 'Set a freelance income goal of $500 USD for the month. Apply to 15 more projects, refining your proposals based on what you\'ve learned.', priority: 'high' },
+                { id: 't3_2', content: 'Deep dive into the "Web Attacks" module in HTB Academy. Your developer experience is a major advantage here. Take detailed notes.', priority: 'high' },
+                { id: 't3_3', content: 'Study the OWASP Top 10 vulnerabilities. For each one, try to find a code example in your past projects or create a small, vulnerable app to understand it practically.', priority: 'medium' },
+                { id: 't3_4', content: 'Publish your second write-up for the "Blue" machine (a classic Windows SMB vulnerability). Compare your methodology with other public write-ups.', priority: 'medium' },
+                { id: 't3_5', content: 'Network strategically. Find and connect with 10 cybersecurity professionals from Colombia on LinkedIn. Send a personalized connection request.', priority: 'low' },
             ],
             resources: [
               {
                 title: 'Web Security Essentials',
                 icon: 'BookOpen',
                 items: [
-                  'Referencia: "OWASP Top 10" (Sitio oficial)',
-                  'Libro: "The Web Application Hacker\'s Handbook" (Lectura obligatoria)',
-                  'Herramienta: "Burp Suite Community Edition".',
+                  'Reference: "OWASP Top 10" (Official Site)',
+                  'Book: "The Web Application Hacker\'s Handbook" (A must-read)',
+                  'Tool: "Burp Suite Community Edition". Install and configure it.',
                 ],
               },
             ],
@@ -290,21 +293,22 @@ export const roadmapData: Section[] = [
           {
             id: 'week4',
             title: 'Week 4: Consolidation and Specialization',
+            description: 'Review your progress, solidify your knowledge, and start thinking about your long-term career path.',
             tasks: [
-                { id: 't4_1', content: 'Financial review: Goal $500-800 USD reached, plan for month 2', priority: 'high' },
-                { id: 't4_2', content: 'HTB machines: Complete 5 easy machines, 2 write-ups published', priority: 'high' },
-                { id: 't4_3', content: 'Specialization: Decide between AppSec, Pentesting, or SOC Analyst', priority: 'medium' },
-                { id: 't4_4', content: 'Portfolio update: Add cybersecurity section to your GitHub Pages', priority: 'medium' },
-                { id: 't4_5', content: 'Content creation: First Medium article "Developer to Cybersecurity transition"', priority: 'low' },
+                { id: 't4_1', content: 'Review your finances. Did you hit your $500-800 USD goal? Analyze what worked and create a plan to increase your rates or efficiency for Month 2.', priority: 'high' },
+                { id: 't4_2', content: 'Consolidate your HTB progress. Ensure you have completed at least 5 easy machines and have 2 high-quality write-ups published on Medium or your GitHub blog.', priority: 'high' },
+                { id: 't4_3', content: 'Research career specializations. Read about the day-to-day work of an AppSec Engineer, Pentester, and SOC Analyst. Decide on a primary focus area.', priority: 'medium' },
+                { id: 't4_4', content: 'Build your portfolio. Create a simple portfolio page using GitHub Pages. Link your LinkedIn, GitHub, and your write-ups.', priority: 'medium' },
+                { id: 't4_5', content: 'Start building your personal brand. Write your first article on Medium about your journey, titled something like "From Developer to Cybersecurity: My First 30 Days".', priority: 'low' },
             ],
             resources: [
               {
                 title: 'Building Your Brand',
                 icon: 'Trophy',
                 items: [
-                  'Plataforma: Medium para publicar tus write-ups.',
-                  'Guía: "How to Build a Personal Brand" (Neil Patel)',
-                  'Inspiración: Blog de "Daniel Miessler" para ideas de contenido.',
+                  'Platform: Medium for publishing your write-ups.',
+                  'Guide: "How to Build a Personal Brand" (Neil Patel)',
+                  'Inspiration: Daniel Miessler\'s blog for content ideas.',
                 ],
               },
             ],
@@ -320,30 +324,31 @@ export const roadmapData: Section[] = [
             title: 'Month 2: Web Application Security (Weeks 5-8)',
             description: 'Deep dive into web vulnerabilities, leveraging your development background for a strong AppSec foundation.',
             tasks: [
-                { id: 't5_1', content: 'Freelance scale: Target $1000 USD - specialize in security code review', priority: 'high' },
-                { id: 't5_2', content: 'HTB streak: 1 new machine every 2 days, total 15 machines', priority: 'high' },
-                { id: 't5_3', content: 'Monthly write-ups: 4 detailed write-ups published on Medium', priority: 'medium' },
-                { id: 't5_4', content: 'Burp Suite Pro: Master scanner, repeater, intruder for web audits', priority: 'medium' },
-                { id: 't5_5', content: 'Community: Help 5 people on HTB Discord, build reputation', priority: 'low' },
+                { id: 't5_1', content: 'Scale your freelance work. Target $1000 USD this month by specializing in "security code review" and "API pentesting" services.', priority: 'high' },
+                { id: 't5_2', content: 'Maintain a consistent HTB streak. Solve 1 new machine every 2 days. Aim for a total of 15 machines solved by the end of the month.', priority: 'high' },
+                { id: 't5_3', content: 'Publish 4 detailed write-ups this month (1 per week). Focus on web-based machines to build your AppSec portfolio.', priority: 'medium' },
+                { id: 't5_4', content: 'Master Burp Suite Pro. Go through the PortSwigger Web Security Academy labs on Scanner, Repeater, and Intruder. This is a key professional skill.', priority: 'medium' },
+                { id: 't5_5', content: 'Build your reputation. Actively help 5 people on the HTB Discord/forums with their questions. Become a known, helpful member of the community.', priority: 'low' },
             ],
              resources: [
-                { title: 'Web Pentesting Arsenal', icon: 'Swords', items: ['Academia: PortSwigger Web Security Academy (Gratis y esencial)', 'Libro: "Real-World Bug Hunting: A Field Guide to Web Hacking"', 'Herramienta: "OWASP ZAP" (Alternativa open-source a Burp Suite)'] },
-                { title: 'Deeper Learning', icon: 'BookOpen', items: ['HTB Academy: "SQL Injection Fundamentals"', 'HTB Academy: "Cross-Site Scripting (XSS)"', 'HTB Academy: "File Upload Attacks"', 'Completa 8-10 máquinas web de HTB'] },
+                { title: 'Web Pentesting Arsenal', icon: 'Swords', items: ['Academy: PortSwigger Web Security Academy (Free and essential)', 'Book: "Real-World Bug Hunting: A Field Guide to Web Hacking"', 'Tool: "OWASP ZAP" (Open-source alternative to Burp Suite)'] },
+                { title: 'Deeper Learning', icon: 'BookOpen', items: ['HTB Academy: "SQL Injection Fundamentals"', 'HTB Academy: "Cross-Site Scripting (XSS)"', 'HTB Academy: "File Upload Attacks"', 'Complete 8-10 web-focused machines on HTB'] },
             ],
           },
           {
             id: 'month3',
             title: 'Month 3: Network Security & Pentesting (Weeks 9-12)',
+            description: 'Expand from web to network-level attacks, including the critical area of Active Directory.',
             tasks: [
-                { id: 't6_1', content: 'HTB Academy: "Pentesting Fundamentals" + "Network Enumeration with Nmap"', priority: 'high' },
-                { id: 't6_2', content: 'Active Directory: Complete 3 AD-focused machines (Forest, Sauna, Blackfield)', priority: 'high' },
-                { id: 't6_3', content: 'Metasploit mastery: Complete HTB Academy module "Using Metasploit"', priority: 'medium' },
-                { id: 't6_4', content: 'Freelance evolution: Offer basic "penetration testing" services', priority: 'medium' },
-                { id: 't6_5', content: 'Certification prep: Start preparation for eJPT (eLearnSecurity Junior Penetration Tester)', priority: 'low' },
+                { id: 't6_1', content: 'Complete the "Pentesting Fundamentals" and "Network Enumeration with Nmap" modules on HTB Academy.', priority: 'high' },
+                { id: 't6_2', content: 'Tackle Active Directory. Complete 3 AD-focused machines on HTB. Suggested path: Forest, Sauna, Blackfield.', priority: 'high' },
+                { id: 't6_3', content: 'Learn Metasploit Framework. Complete the HTB Academy module "Using Metasploit" and use it on at least two machines.', priority: 'medium' },
+                { id: 't6_4', content: 'Evolve your freelance services. Start offering basic "external network penetration testing" for small businesses.', priority: 'medium' },
+                { id: 't6_5', content: 'Start studying for the eJPT (eLearnSecurity Junior Penetration Tester) certification. Review the INE course material.', priority: 'low' },
             ],
             resources: [
-              { title: 'Pentesting Core', icon: 'Swords', items: ['Libro: "Penetration Testing: A Hands-On Introduction to Hacking"', 'Guía: "The Hacker Playbook 3"', 'Comunidad: Foros de Offensive Security para aprender de los mejores.'] },
-              { title: 'Active Directory Attack', icon: 'Trophy', items: ['Recurso: "IppSec.rocks" para buscar técnicas en videos de IppSec.', 'Guía: "PayloadsAllTheThings - Active Directory" (GitHub)', 'Laboratorio: Configura tu propio lab de AD en casa.'] },
+              { title: 'Pentesting Core', icon: 'Swords', items: ['Book: "Penetration Testing: A Hands-On Introduction to Hacking"', 'Guide: "The Hacker Playbook 3"', 'Community: Offensive Security forums to learn from the best.'] },
+              { title: 'Active Directory Attack', icon: 'Trophy', items: ['Resource: "IppSec.rocks" to search for techniques in IppSec videos.', 'Guide: "PayloadsAllTheThings - Active Directory" (GitHub)', 'Lab: Set up your own AD lab at home using VMWare.'] },
             ],
           }
         ],
@@ -355,29 +360,31 @@ export const roadmapData: Section[] = [
             {
                 id: 'month4',
                 title: 'Month 4: Incident Response & Blue Team (Weeks 13-16)',
+                description: 'Understand the defensive side of security to become a more effective attacker and well-rounded professional.',
                 tasks: [
-                    { id: 't7_1', content: 'Blue Team skills: HTB Academy "Incident Handling Process"', priority: 'high' },
-                    { id: 't7_2', content: 'SIEM basics: Set up ELK Stack at home, ingest logs from HTB machines', priority: 'high' },
-                    { id: 't7_3', content: 'Portfolio website: Create professional page showing write-ups and projects', priority: 'medium' },
-                    { id: 't7_4', content: 'Conference prep: Apply as a speaker for DragonJAR with a talk on "Developer to Security"', priority: 'medium' },
-                    { id: 't7_5', content: 'Premium freelance: Target $1500 USD offering basic incident response', priority: 'low' },
+                    { id: 't7_1', content: 'Learn the fundamentals of defense. Complete the HTB Academy "Incident Handling Process" module.', priority: 'high' },
+                    { id: 't7_2', content: 'Get hands-on with a SIEM. Set up a home ELK Stack (Elasticsearch, Logstash, Kibana) and ingest logs from your Kali and target VMs.', priority: 'high' },
+                    { id: 't7_3', content: 'Build your professional website. Create a polished portfolio page showing your projects, skills, write-ups, and a contact form.', priority: 'medium' },
+                    { id: 't7_4', content: 'Aim for public speaking. Prepare a talk proposal for the DragonJAR conference on "From Developer to Security Professional: A Practical Guide" and submit it.', priority: 'medium' },
+                    { id: 't7_5', content: 'Increase your freelance value. Target $1500 USD by offering basic incident response services like log analysis or malware triage.', priority: 'low' },
                 ],
                 resources: [
-                  { title: 'Blue Team Mindset', icon: 'BookOpen', items: ['Libro: "The Cuckoo\'s Egg" (Historia real de DFIR)', 'Herramienta: "Splunk Free" o "ELK Stack" para análisis de logs.', 'Plataforma: "LetsDefend.io" para practicar respuesta a incidentes.'] },
+                  { title: 'Blue Team Mindset', icon: 'BookOpen', items: ['Book: "The Cuckoo\'s Egg" (A true story of early DFIR)', 'Tool: "Splunk Free" or "ELK Stack" for log analysis.', 'Platform: "LetsDefend.io" to practice incident response.'] },
                 ],
             },
             {
                 id: 'month5',
                 title: 'Month 5: Cloud Security & Modern Threats (Weeks 17-20)',
+                description: 'Focus on high-demand, modern skills in cloud and container security.',
                 tasks: [
-                    { id: 't8_1', content: 'AWS Security: Complete "Introduction to Cloud Computing" module in HTB Academy', priority: 'high' },
-                    { id: 't8_2', content: 'Container Security: Learn Docker security, Kubernetes basics', priority: 'high' },
-                    { id: 't8_3', content: 'Advanced HTB: Complete 5 medium difficulty machines', priority: 'medium' },
-                    { id: 't8_4', content: 'Industry networking: Attend 8.8 conference (Chile) virtually', priority: 'medium' },
-                    { id: 't8_5', content: 'Certification: Take the eJPT or Security+ exam', priority: 'low' },
+                    { id: 't8_1', content: 'Learn AWS fundamentals. Complete the "Introduction to Cloud Computing" module in HTB Academy and the AWS Skills Builder "Cloud Essentials" learning path.', priority: 'high' },
+                    { id: 't8_2', content: 'Understand container security. Learn Docker security best practices and the basics of Kubernetes architecture and its common misconfigurations.', priority: 'high' },
+                    { id: 't8_3', content: 'Level up your hacking skills. Complete 5 medium-difficulty machines on Hack The Box, focusing on diverse attack vectors.', priority: 'medium' },
+                    { id: 't8_4', content: 'Attend a conference. Virtually attend the 8.8 conference in Chile. Take notes and connect with speakers on social media.', priority: 'medium' },
+                    { id: 't8_5', content: 'Get certified. Schedule and take the eJPT or CompTIA Security+ exam to validate your knowledge.', priority: 'low' },
                 ],
                 resources: [
-                  { title: 'Cloud & Container Security', icon: 'Swords', items: ['Certificación: "AWS Certified Cloud Practitioner" (buen inicio)', 'Juego: "Flaws.cloud" y "Flaws2.cloud" para aprender de errores comunes en AWS.', 'Guía: "OWASP Kubernetes Top Ten".'] },
+                  { title: 'Cloud & Container Security', icon: 'Swords', items: ['Certification: "AWS Certified Cloud Practitioner" (a good start)', 'Game: "Flaws.cloud" and "Flaws2.cloud" to learn common AWS mistakes.', 'Guide: "OWASP Kubernetes Top Ten".'] },
                 ],
             }
         ]
@@ -389,15 +396,16 @@ export const roadmapData: Section[] = [
             {
                 id: 'month6',
                 title: 'Month 6: Full-Time Security Professional (Weeks 21-24)',
+                description: 'Transition from freelancing and studying to landing your first full-time role in cybersecurity.',
                 tasks: [
-                    { id: 't9_1', content: 'Resume optimization: CV focused on cybersecurity with metrics and achievements', priority: 'high' },
-                    { id: 't9_2', content: 'Job applications: 50 applications to SOC Analyst, Jr. Pentester, AppSec Engineer', priority: 'high' },
-                    { id: 't9_3', content: 'Interview prep: Practice technical interviews, explain write-ups', priority: 'medium' },
-                    { id: 't9_4', content: 'Salary negotiation: Research cybersecurity salaries in Colombia, prepare arguments', priority: 'medium' },
-                    { id: 't9_5', content: 'Backup plan: Maintain freelance as secondary income ($500-1000/month)', priority: 'low' },
+                    { id: 't9_1', content: 'Optimize your resume. Tailor your CV for cybersecurity roles. Use the STAR method (Situation, Task, Action, Result) to describe your freelance projects and HTB experience.', priority: 'high' },
+                    { id: 't9_2', content: 'Begin aggressive job applications. Apply to 50 roles for SOC Analyst, Jr. Pentester, and AppSec Engineer. Track applications in a spreadsheet.', priority: 'high' },
+                    { id: 't9_3', content: 'Prepare for interviews. Practice explaining your top 3 write-ups in detail. Prepare answers for common behavioral questions. Do mock technical interviews.', priority: 'medium' },
+                    { id: 't9_4', content: 'Prepare for salary negotiation. Research cybersecurity salaries in Colombia (Bogotá, Medellín). Have a target number and a walk-away number ready. Prepare arguments based on your skills and experience.', priority: 'medium' },
+                    { id: 't9_5', content: 'Maintain a safety net. Continue part-time freelancing ($500-1000/month) until you have signed a full-time contract.', priority: 'low' },
                 ],
                 resources: [
-                  { title: 'Career Launch Kit', icon: 'Trophy', items: ['Guía de Salarios: "Robert Half Technology Salary Guide"', 'Plataforma: "Hired" para que las empresas te busquen a ti.', 'Libro: "Cracking the Coding Interview" (muchos conceptos aplican a entrevistas de seguridad).'] },
+                  { title: 'Career Launch Kit', icon: 'Trophy', items: ['Salary Guide: "Robert Half Technology Salary Guide"', 'Platform: "Hired" or "Wellfound" for companies to apply to you.', 'Book: "Cracking the Coding Interview" (many concepts apply to security interviews).'] },
                 ],
             }
         ]

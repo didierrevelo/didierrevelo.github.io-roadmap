@@ -14,7 +14,9 @@ import { Progress } from '@/components/ui/progress';
 import { CodeBlock } from '@/components/code-block';
 import { WriteupImprover } from '@/components/writeup-improver';
 import { roadmapData, Section, Phase, Week, Task, Guide, ResourceCardData } from '@/lib/data';
-import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings } from 'lucide-react';
+import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 
 const sectionIcons: { [key: string]: React.ElementType } = {
   'Phase 1': DollarSign,
@@ -51,6 +53,7 @@ const priorityBadgeVariant = {
 
 export default function Home() {
   const [completedTasks, setCompletedTasks] = React.useState<Set<string>>(new Set());
+  const [notes, setNotes] = React.useState<{ [key: string]: string }>({});
   const [isLoaded, setIsLoaded] = React.useState(false);
 
   const allTasks = React.useMemo(() => {
@@ -71,8 +74,12 @@ export default function Home() {
 
   React.useEffect(() => {
     const storedProgress = localStorage.getItem('cybersecurityProgress');
+    const storedNotes = localStorage.getItem('cybersecurityNotes');
     if (storedProgress) {
       setCompletedTasks(new Set(JSON.parse(storedProgress)));
+    }
+    if (storedNotes) {
+      setNotes(JSON.parse(storedNotes));
     }
     setIsLoaded(true);
   }, []);
@@ -80,8 +87,9 @@ export default function Home() {
   React.useEffect(() => {
     if (isLoaded) {
       localStorage.setItem('cybersecurityProgress', JSON.stringify(Array.from(completedTasks)));
+      localStorage.setItem('cybersecurityNotes', JSON.stringify(notes));
     }
-  }, [completedTasks, isLoaded]);
+  }, [completedTasks, notes, isLoaded]);
 
   const handleTaskToggle = (taskId: string) => {
     setCompletedTasks(prev => {
@@ -93,6 +101,10 @@ export default function Home() {
       }
       return newSet;
     });
+  };
+  
+  const handleNoteChange = (weekId: string, value: string) => {
+    setNotes(prev => ({ ...prev, [weekId]: value }));
   };
 
   const progressPercentage = totalTasks > 0 ? Math.round((completedTasks.size / totalTasks) * 100) : 0;
@@ -186,8 +198,21 @@ export default function Home() {
         </AccordionTrigger>
         <AccordionContent className="px-6 pb-4">
             {week.description && <p className="text-muted-foreground mb-4">{week.description}</p>}
-            {week.resources && <div className="flex flex-wrap gap-4 my-4">{week.resources.map(renderResourceCard)}</div>}
             {week.tasks.map(renderTask)}
+            {week.resources && <div className="flex flex-wrap gap-4 my-4">{week.resources.map(renderResourceCard)}</div>}
+            
+            <div className="mt-6">
+              <h4 className="font-semibold text-base mb-2 flex items-center gap-2 text-primary">
+                <StickyNote className="w-5 h-5"/>
+                My Notes
+              </h4>
+              <Textarea
+                placeholder={`Jot down your thoughts, findings, and custom resources for ${week.title}...`}
+                value={notes[week.id] || ''}
+                onChange={(e) => handleNoteChange(week.id, e.target.value)}
+                className="min-h-[120px] bg-background/50"
+              />
+            </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
