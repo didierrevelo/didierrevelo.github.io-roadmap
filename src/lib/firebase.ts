@@ -12,17 +12,17 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 // Check that all required environment variables are set and not empty
-const isFirebaseConfigured =
-  firebaseConfig.apiKey &&
-  firebaseConfig.authDomain &&
-  firebaseConfig.projectId &&
-  firebaseConfig.storageBucket &&
-  firebaseConfig.messagingSenderId &&
-  firebaseConfig.appId;
+export const isFirebaseConfigured =
+  !!firebaseConfig.apiKey &&
+  !!firebaseConfig.authDomain &&
+  !!firebaseConfig.projectId &&
+  !!firebaseConfig.storageBucket &&
+  !!firebaseConfig.messagingSenderId &&
+  !!firebaseConfig.appId;
 
 let app;
-let auth;
-let db;
+let auth: ReturnType<typeof getAuth> | undefined;
+let db: ReturnType<typeof getFirestore> | undefined;
 
 if (isFirebaseConfigured) {
   app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
@@ -33,4 +33,6 @@ if (isFirebaseConfigured) {
 }
 
 
-export { app, auth, db, isFirebaseConfigured };
+export { app, auth, db };
+
+    
