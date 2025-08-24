@@ -19,9 +19,8 @@ const nextConfig: NextConfig = {
     ],
   },
   experimental: {
-    // This is required for Firebase Studio to work.
     allowedDevOrigins: ["https://6000-firebase-studio-1756053414198.cluster-lr6dwlc2lzbcctqhqorax5zmro.cloudworkstations.dev"],
-  },
+  }
 };
 
 export default nextConfig;
