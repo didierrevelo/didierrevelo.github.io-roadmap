@@ -17,20 +17,25 @@ const GenerateQuizInputSchema = z.object({
 });
 export type GenerateQuizInput = z.infer<typeof GenerateQuizInputSchema>;
 
-const QuestionSchema = z.object({
+export const QuestionSchema = z.object({
     question: z.string().describe('The question text.'),
     options: z.array(z.string()).describe('An array of 4 possible answers.'),
     answer: z.string().describe('The correct answer from the options array.'),
     explanation: z.string().describe('A brief explanation of why the answer is correct.'),
 });
+export type Question = z.infer<typeof QuestionSchema>;
 
 const GenerateQuizOutputSchema = z.object({
-  title: z.string().describe('A catchy title for the quiz related to the topic.'),
-  questions: z.array(QuestionSchema).describe('An array of 5 quiz questions.'),
+  quizMarkdown: z.string().describe('The entire quiz formatted as a single markdown string.'),
 });
-export type GenerateQuizOutput = z.infer<typeof GenerateQuizOutputSchema>;
 
-export async function generateQuiz(input: GenerateQuizInput): Promise<GenerateQuizOutput> {
+export type GenerateQuizOutput = {
+  title: string;
+  questions: Question[];
+};
+
+
+export async function generateQuiz(input: GenerateQuizInput): Promise<{ quizMarkdown: string }> {
   return generateQuizFlow(input);
 }
 
@@ -38,17 +43,31 @@ const prompt = ai.definePrompt({
   name: 'generateQuizPrompt',
   input: {schema: GenerateQuizInputSchema},
   output: {schema: GenerateQuizOutputSchema},
-  prompt: `You are a Senior Cybersecurity Mentor and gamification expert. Your task is to create an engaging, interactive multiple-choice quiz for a student learning to become a security professional.
+  prompt: `You are a Senior Cybersecurity Mentor. Create a 5-question multiple-choice quiz on the topic of **{{{topic}}}**.
 
-The quiz should be based on the following topic: **{{{topic}}}**
+  Format the output as a single block of Markdown.
 
-**Instructions:**
-1.  **Generate 5 Relevant Questions:** Create a total of five high-quality questions that are directly relevant to the provided topic.
-2.  **Multiple-Choice Format:** Each question must have exactly 4 options. One option must be clearly correct. The other options should be plausible but incorrect distractors.
-3.  **Answer and Explanation:** For each question, provide the correct answer and a concise, clear explanation for why it's correct. The explanation should reinforce the learning concept.
-4.  **Engaging Tone:** The title and questions should be slightly gamified and encouraging.
+  **Instructions:**
+  1.  Start with a title line, beginning with '#'.
+  2.  For each question, start with a number followed by a period (e.g., "1.").
+  3.  Provide 4 options for each question.
+  4.  Incorrect answers should start with '- [ ]'.
+  5.  The single correct answer should start with '- [x]'.
+  6.  After the options for each question, add a line that starts with "Explanation:" followed by a brief, clear explanation of the correct answer.
 
-Make the quiz challenging but fair for someone actively learning this topic. Ensure all 5 questions are generated.`,
+  **Example Format:**
+
+  # Phishing Attacks Quiz
+  1. What is the primary goal of a phishing attack?
+  - [ ] To install a virus
+  - [ ] To crash a server
+  - [x] To steal sensitive information
+  - [ ] To perform a DDoS attack
+  Explanation: Phishing attacks primarily aim to trick users into revealing sensitive data like credentials or financial information.
+  
+  2. Which of these is a common red flag for a phishing email?
+  ... and so on for 5 questions.
+  `,
 });
 
 const generateQuizFlow = ai.defineFlow(
