@@ -9,30 +9,8 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-
-const GenerateQuizInputSchema = z.object({
-  topic: z
-    .string()
-    .describe('The specific cybersecurity topic for which to generate a quiz.'),
-});
-export type GenerateQuizInput = z.infer<typeof GenerateQuizInputSchema>;
-
-export const QuestionSchema = z.object({
-    question: z.string().describe('The question text.'),
-    options: z.array(z.string()).describe('An array of 4 possible answers.'),
-    answer: z.string().describe('The correct answer from the options array.'),
-    explanation: z.string().describe('A brief explanation of why the answer is correct.'),
-});
-export type Question = z.infer<typeof QuestionSchema>;
-
-const GenerateQuizOutputSchema = z.object({
-  quizMarkdown: z.string().describe('The entire quiz formatted as a single markdown string.'),
-});
-
-export type GenerateQuizOutput = {
-  title: string;
-  questions: Question[];
-};
+import { GenerateQuizInputSchema, GenerateQuizOutputSchema } from '@/lib/types';
+import type { GenerateQuizInput } from '@/lib/types';
 
 
 export async function generateQuiz(input: GenerateQuizInput): Promise<{ quizMarkdown: string }> {

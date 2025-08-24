@@ -1,7 +1,8 @@
 'use server';
 
 import { improveWriteup } from '@/ai/flows/improve-writeup-gen-ai';
-import { generateQuiz, type GenerateQuizOutput, type Question } from '@/ai/flows/generate-quiz-flow';
+import { generateQuiz } from '@/ai/flows/generate-quiz-flow';
+import type { GenerateQuizOutput, Question } from '@/lib/types';
 import { z } from 'zod';
 
 const improveWriteupSchema = z.object({
