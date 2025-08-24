@@ -14,12 +14,13 @@ import { Progress } from '@/components/ui/progress';
 import { CodeBlock } from '@/components/code-block';
 import { WriteupImprover } from '@/components/writeup-improver';
 import { roadmapData, Section, Phase, Week, Task, Guide, ResourceCardData } from '@/lib/data';
-import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote } from 'lucide-react';
+import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { auth, db } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 
 const sectionIcons: { [key: string]: React.ElementType } = {
@@ -56,7 +57,7 @@ const priorityBadgeVariant = {
 } as const;
 
 export default function Home() {
-  const [user, loading] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(auth);
   const [completedTasks, setCompletedTasks] = React.useState<Set<string>>(new Set());
   const [notes, setNotes] = React.useState<{ [key: string]: string }>({});
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -76,28 +77,38 @@ export default function Home() {
   }, []);
 
   const totalTasks = allTasks.length;
+  
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Error signing in with Google", error);
+    }
+  };
+
+  const logOut = async () => {
+    await signOut(auth);
+    setCompletedTasks(new Set());
+    setNotes({});
+  };
 
   React.useEffect(() => {
-    if (user) {
-      const docRef = doc(db, 'users', user.uid);
-      getDoc(docRef).then(docSnap => {
+    const loadUserData = async () => {
+      if (user) {
+        const docRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
           setCompletedTasks(new Set(data.completedTasks || []));
           setNotes(data.notes || {});
         }
-        setIsLoaded(true);
-      });
-    } else if (!loading) {
-      const storedProgress = localStorage.getItem('cybersecurityProgress');
-      const storedNotes = localStorage.getItem('cybersecurityNotes');
-      if (storedProgress) {
-        setCompletedTasks(new Set(JSON.parse(storedProgress)));
-      }
-      if (storedNotes) {
-        setNotes(JSON.parse(storedNotes));
       }
       setIsLoaded(true);
+    };
+
+    if (!loading) {
+      loadUserData();
     }
   }, [user, loading]);
 
@@ -105,9 +116,6 @@ export default function Home() {
     if (user) {
       const docRef = doc(db, 'users', user.uid);
       await setDoc(docRef, { completedTasks: Array.from(newCompletedTasks), notes: newNotes }, { merge: true });
-    } else {
-      localStorage.setItem('cybersecurityProgress', JSON.stringify(Array.from(newCompletedTasks)));
-      localStorage.setItem('cybersecurityNotes', JSON.stringify(newNotes));
     }
   };
 
@@ -132,8 +140,44 @@ export default function Home() {
   const currentWeek = totalTasks > 0 ? Math.min(24, Math.floor((completedTasks.size / (totalTasks / 24))) + 1) : 1;
   const estimatedSalary = 2000 + (progressPercentage * 40);
 
-  if (!isLoaded || loading) {
+  if (loading || (!isLoaded && user)) {
     return <div className="flex h-screen items-center justify-center bg-background text-foreground">Loading...</div>;
+  }
+  
+  if (error) {
+      return (
+        <div className="flex h-screen flex-col items-center justify-center bg-background text-destructive p-4">
+          <h2 className="text-2xl font-bold mb-4">Oops! Something went wrong.</h2>
+          <p className="text-center mb-2">
+            It seems there's an issue with the Firebase configuration.
+          </p>
+          <p className="text-center text-sm text-muted-foreground">
+            Please make sure you have added your Firebase project credentials to the <code>.env</code> file.
+          </p>
+          <pre className="mt-4 p-4 bg-card rounded-md text-xs whitespace-pre-wrap">{error.message}</pre>
+        </div>
+      );
+  }
+
+  if (!user) {
+    return (
+      <main className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
+         <Card className="max-w-md w-full shadow-lg">
+           <CardHeader>
+             <CardTitle className="text-center text-2xl font-bold text-primary">Welcome!</CardTitle>
+             <CardDescription className="text-center text-muted-foreground">
+               Sign in to save your progress and access your personalized roadmap.
+             </CardDescription>
+           </CardHeader>
+           <CardContent>
+              <Button onClick={signInWithGoogle} className="w-full">
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In with Google
+              </Button>
+           </CardContent>
+         </Card>
+      </main>
+    );
   }
 
   const renderTask = (task: Task) => (
@@ -248,7 +292,6 @@ export default function Home() {
   
   const renderSection = (section: Section) => {
     const Icon = sectionIcons[section.title] || BrainCircuit;
-    const isAiImprover = section.id === 'writeup-improver';
 
     return (
       <AccordionItem key={section.id} value={section.id} className="border-none mb-4">
@@ -270,13 +313,22 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="container mx-auto max-w-6xl">
-        <header className="text-center mb-8">
-          <h1 className="font-headline text-4xl md:text-5xl font-extrabold text-primary mb-2">
-            Cybersecurity Roadmap Navigator
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Didier Revelo's Journey: Developer → Security Professional
-          </p>
+        <header className="flex justify-between items-center mb-8">
+            <div className="text-left">
+              <h1 className="font-headline text-4xl md:text-5xl font-extrabold text-primary mb-2">
+                Cybersecurity Roadmap Navigator
+              </h1>
+              <p className="text-muted-foreground text-lg">
+                Didier Revelo's Journey: Developer → Security Professional
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+                <div className="text-right">
+                    <p className="font-semibold">{user.displayName}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                </div>
+                <Button variant="outline" onClick={logOut}>Sign Out</Button>
+            </div>
         </header>
 
         <Card className="mb-8 shadow-md bg-card/50">
@@ -318,3 +370,5 @@ export default function Home() {
     </main>
   );
 }
+
+    
