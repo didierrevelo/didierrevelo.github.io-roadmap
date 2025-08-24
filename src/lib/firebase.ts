@@ -2,18 +2,22 @@ import { initializeApp, getApps, getApp, type FirebaseOptions } from "firebase/a
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
+// TODO: Paste your Firebase config object here.
+// Find it in your Firebase project console:
+// Project settings > General > Your apps > SDK setup and configuration
 const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "PASTE_YOUR_API_KEY_HERE",
+  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
+  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+  appId: "PASTE_YOUR_APP_ID_HERE",
 };
 
-// Check that all required environment variables are set and not empty
+// Check that all required environment variables are set and not empty placeholders
 export const isFirebaseConfigured =
   !!firebaseConfig.apiKey &&
+  firebaseConfig.apiKey !== "PASTE_YOUR_API_KEY_HERE" &&
   !!firebaseConfig.authDomain &&
   !!firebaseConfig.projectId &&
   !!firebaseConfig.storageBucket &&
@@ -29,10 +33,7 @@ if (isFirebaseConfigured) {
   auth = getAuth(app);
   db = getFirestore(app);
 } else {
-    console.warn("Firebase configuration is incomplete. Firebase services will be disabled.");
+    console.warn("Firebase configuration is incomplete. Update src/lib/firebase.ts to enable Firebase services.");
 }
 
-
 export { app, auth, db };
-
-    
