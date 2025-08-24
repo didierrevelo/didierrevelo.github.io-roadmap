@@ -3,6 +3,17 @@
 
 import * as React from 'react';
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -16,9 +27,12 @@ import { CodeBlock } from '@/components/code-block';
 import { WriteupImprover } from '@/components/writeup-improver';
 import { roadmapData } from '@/lib/data';
 import type { Section, Phase, Week, Task, Guide, ResourceCardData } from '@/lib/types';
-import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn, AlertTriangle, Code, Terminal } from 'lucide-react';
+import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn, AlertTriangle, Code, Terminal, Lock, Unlock } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+
 
 const sectionIcons: { [key: string]: React.ElementType } = {
   'Phase 1': DollarSign,
@@ -56,9 +70,16 @@ const priorityBadgeVariant = {
   low: 'default',
 } as const;
 
+// IMPORTANT: Change this password to a secret one!
+const SUPER_SECRET_PASSWORD = 'didier';
+
 export default function Home() {
   const [completedTasks, setCompletedTasks] = React.useState<Set<string>>(new Set());
   const [notes, setNotes] = React.useState<{ [key: string]: string }>({});
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [passwordInput, setPasswordInput] = React.useState('');
+  const { toast } = useToast();
+
 
   const allTasks = React.useMemo(() => {
     const tasks: Task[] = [];
@@ -90,6 +111,33 @@ export default function Home() {
     const newNotes = { ...notes, [weekId]: value };
     setNotes(newNotes);
   };
+  
+  const handleLogin = () => {
+    if (passwordInput === SUPER_SECRET_PASSWORD) {
+      setIsAuthenticated(true);
+      setPasswordInput('');
+       toast({
+        title: '¡Desbloqueado!',
+        description: 'Ahora puedes editar tu progreso.',
+      });
+      // This is a pattern to close the dialog programmatically
+      document.getElementById('login-dialog-cancel')?.click();
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Contraseña incorrecta.',
+      });
+    }
+  };
+  
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    toast({
+        title: 'Bloqueado',
+        description: 'Tu progreso está protegido.',
+      });
+  }
 
   const progressPercentage = totalTasks > 0 ? Math.round((completedTasks.size / totalTasks) * 100) : 0;
   const currentWeek = totalTasks > 0 ? Math.min(24, Math.floor((completedTasks.size / (totalTasks / 24))) + 1) : 1;
@@ -109,6 +157,7 @@ export default function Home() {
         onCheckedChange={() => handleTaskToggle(task.id)}
         className="mt-1"
         aria-labelledby={`label-${task.id}`}
+        disabled={!isAuthenticated}
       />
       <label htmlFor={task.id} id={`label-${task.id}`} className={`flex-1 text-sm ${completedTasks.has(task.id) ? 'line-through text-muted-foreground' : 'text-card-foreground'}`}>
         {task.content}
@@ -206,6 +255,7 @@ export default function Home() {
                 value={notes[week.id] || ''}
                 onChange={(e) => handleNoteChange(week.id, e.target.value)}
                 className="min-h-[120px] bg-background/50"
+                disabled={!isAuthenticated}
               />
             </div>
         </AccordionContent>
@@ -244,13 +294,51 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="container mx-auto max-w-6xl">
         <header className="mb-8">
-            <div className="text-left">
-              <h1 className="font-headline text-4xl md:text-5xl font-extrabold text-primary mb-2">
-                Cybersecurity Roadmap Navigator
-              </h1>
-              <p className="text-muted-foreground text-lg">
-                Didier Revelo's Journey: Developer → Security Professional
-              </p>
+            <div className="flex justify-between items-start">
+              <div className="text-left">
+                <h1 className="font-headline text-4xl md:text-5xl font-extrabold text-primary mb-2">
+                  Cybersecurity Roadmap Navigator
+                </h1>
+                <p className="text-muted-foreground text-lg">
+                  Didier Revelo's Journey: Developer → Security Professional
+                </p>
+              </div>
+               {isAuthenticated ? (
+                  <Button variant="outline" onClick={handleLogout}>
+                    <Lock className="mr-2 h-4 w-4" />
+                    Lock Progress
+                  </Button>
+                ) : (
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="outline">
+                      <Unlock className="mr-2 h-4 w-4" />
+                      Unlock
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Admin Access</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Enter the password to unlock editing capabilities.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <Input
+                      type="password"
+                      placeholder="Password"
+                      value={passwordInput}
+                      onChange={(e) => setPasswordInput(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+                    />
+                    <AlertDialogFooter>
+                      <AlertDialogCancel id="login-dialog-cancel">Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleLogin}>
+                        Unlock
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+               )}
             </div>
         </header>
 
@@ -293,3 +381,5 @@ export default function Home() {
     </main>
   );
 }
+
+  
