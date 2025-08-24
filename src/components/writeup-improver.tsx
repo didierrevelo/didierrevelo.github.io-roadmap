@@ -54,7 +54,7 @@ export function WriteupImprover() {
             ref={textAreaRef}
             name="writeupText"
             placeholder="Paste your full write-up here..."
-            className="min-h-[200px] bg-white"
+            className="min-h-[200px] bg-card"
             aria-invalid={!!state.errors?.writeupText}
             aria-describedby="writeup-error"
           />
@@ -76,13 +76,13 @@ export function WriteupImprover() {
       )}
 
       {state.suggestions && (
-        <Card className="mt-6">
+        <Card className="mt-6 bg-background/50">
           <CardContent className="p-6">
-            <h3 className="font-headline text-lg font-semibold mb-2 flex items-center gap-2 text-primary">
+            <h3 className="font-headline text-lg font-semibold mb-2 flex items-center gap-2 text-accent">
                 <Lightbulb className="h-5 w-5"/>
                 AI-Powered Suggestions
             </h3>
-            <div className="prose prose-sm max-w-none whitespace-pre-wrap font-sans text-gray-700">
+            <div className="prose prose-sm max-w-none whitespace-pre-wrap font-sans text-foreground/80">
                 {state.suggestions}
             </div>
           </CardContent>

@@ -231,6 +231,17 @@ export const roadmapData: Section[] = [
               { id: 't1_4', content: 'Setup Hack The Box: Configure VPN, Kali VM, take notes on the first lab', priority: 'medium' },
               { id: 't1_5', content: 'Technical English: 1 hour daily watching NetworkChuck videos (cybersecurity + English)', priority: 'low' },
             ],
+            resources: [
+              {
+                title: 'Foundational Knowledge',
+                icon: 'BookOpen',
+                items: [
+                  'Libro: "The Millionaire Fastlane" (para mentalidad de negocio)',
+                  'Artículo: "How to Start a Freelance Business" (HubSpot)',
+                  'Herramienta: Notion para organizar aplicaciones y notas.',
+                ],
+              },
+            ],
           },
           {
             id: 'week2',
@@ -241,7 +252,18 @@ export const roadmapData: Section[] = [
                 { id: 't2_3', content: 'First write-up: Solve "Legacy" machine (Windows easy) and document', priority: 'medium' },
                 { id: 't2_4', content: 'GitHub Security: Create "security-learning" repo with your scripts and notes', priority: 'medium' },
                 { id: 't2_5', content: 'English: Participate in HTB forums in English, make 3 technical comments', priority: 'low' },
-            ]
+            ],
+             resources: [
+              {
+                title: 'Core Skills',
+                icon: 'Swords',
+                items: [
+                  'Guía: "Nmap Cheat Sheet" (StationX)',
+                  'Video: "How to Get Your First Box on Hack The Box" (IppSec)',
+                  'Documentación: Obsidian.md para crear tu "Second Brain".',
+                ],
+              },
+            ],
           },
           {
             id: 'week3',
@@ -252,7 +274,18 @@ export const roadmapData: Section[] = [
                 { id: 't3_3', content: 'OWASP Top 10: Study and create practical examples with your projects', priority: 'medium' },
                 { id: 't3_4', content: 'Write-up #2: "Blue" machine (Windows SMB vulnerability)', priority: 'medium' },
                 { id: 't3_5', content: 'Networking: Connect with 10 Colombian security professionals on LinkedIn', priority: 'low' },
-            ]
+            ],
+            resources: [
+              {
+                title: 'Web Security Essentials',
+                icon: 'BookOpen',
+                items: [
+                  'Referencia: "OWASP Top 10" (Sitio oficial)',
+                  'Libro: "The Web Application Hacker\'s Handbook" (Lectura obligatoria)',
+                  'Herramienta: "Burp Suite Community Edition".',
+                ],
+              },
+            ],
           },
           {
             id: 'week4',
@@ -263,7 +296,18 @@ export const roadmapData: Section[] = [
                 { id: 't4_3', content: 'Specialization: Decide between AppSec, Pentesting, or SOC Analyst', priority: 'medium' },
                 { id: 't4_4', content: 'Portfolio update: Add cybersecurity section to your GitHub Pages', priority: 'medium' },
                 { id: 't4_5', content: 'Content creation: First Medium article "Developer to Cybersecurity transition"', priority: 'low' },
-            ]
+            ],
+            resources: [
+              {
+                title: 'Building Your Brand',
+                icon: 'Trophy',
+                items: [
+                  'Plataforma: Medium para publicar tus write-ups.',
+                  'Guía: "How to Build a Personal Brand" (Neil Patel)',
+                  'Inspiración: Blog de "Daniel Miessler" para ideas de contenido.',
+                ],
+              },
+            ],
           }
         ],
       },
@@ -275,16 +319,16 @@ export const roadmapData: Section[] = [
             id: 'month2',
             title: 'Month 2: Web Application Security (Weeks 5-8)',
             description: 'Deep dive into web vulnerabilities, leveraging your development background for a strong AppSec foundation.',
-            resources: [
-                { title: 'Immersive English', icon: 'Languages', items: ['Watch all HTB machines with English audio', 'Follow IppSec on YouTube (HTB walkthroughs)', 'Read tool documentation in English', 'Participate in HTB Discord (#general channel)'] },
-                { title: 'Web Security Focus', icon: 'Swords', items: ['HTB Academy: "SQL Injection Fundamentals"', 'HTB Academy: "Cross-Site Scripting (XSS)"', 'HTB Academy: "File Upload Attacks"', 'Complete 8-10 web-focused machines'] },
-            ],
             tasks: [
                 { id: 't5_1', content: 'Freelance scale: Target $1000 USD - specialize in security code review', priority: 'high' },
                 { id: 't5_2', content: 'HTB streak: 1 new machine every 2 days, total 15 machines', priority: 'high' },
                 { id: 't5_3', content: 'Monthly write-ups: 4 detailed write-ups published on Medium', priority: 'medium' },
                 { id: 't5_4', content: 'Burp Suite Pro: Master scanner, repeater, intruder for web audits', priority: 'medium' },
                 { id: 't5_5', content: 'Community: Help 5 people on HTB Discord, build reputation', priority: 'low' },
+            ],
+             resources: [
+                { title: 'Web Pentesting Arsenal', icon: 'Swords', items: ['Academia: PortSwigger Web Security Academy (Gratis y esencial)', 'Libro: "Real-World Bug Hunting: A Field Guide to Web Hacking"', 'Herramienta: "OWASP ZAP" (Alternativa open-source a Burp Suite)'] },
+                { title: 'Deeper Learning', icon: 'BookOpen', items: ['HTB Academy: "SQL Injection Fundamentals"', 'HTB Academy: "Cross-Site Scripting (XSS)"', 'HTB Academy: "File Upload Attacks"', 'Completa 8-10 máquinas web de HTB'] },
             ],
           },
           {
@@ -296,7 +340,11 @@ export const roadmapData: Section[] = [
                 { id: 't6_3', content: 'Metasploit mastery: Complete HTB Academy module "Using Metasploit"', priority: 'medium' },
                 { id: 't6_4', content: 'Freelance evolution: Offer basic "penetration testing" services', priority: 'medium' },
                 { id: 't6_5', content: 'Certification prep: Start preparation for eJPT (eLearnSecurity Junior Penetration Tester)', priority: 'low' },
-            ]
+            ],
+            resources: [
+              { title: 'Pentesting Core', icon: 'Swords', items: ['Libro: "Penetration Testing: A Hands-On Introduction to Hacking"', 'Guía: "The Hacker Playbook 3"', 'Comunidad: Foros de Offensive Security para aprender de los mejores.'] },
+              { title: 'Active Directory Attack', icon: 'Trophy', items: ['Recurso: "IppSec.rocks" para buscar técnicas en videos de IppSec.', 'Guía: "PayloadsAllTheThings - Active Directory" (GitHub)', 'Laboratorio: Configura tu propio lab de AD en casa.'] },
+            ],
           }
         ],
       },
@@ -313,7 +361,10 @@ export const roadmapData: Section[] = [
                     { id: 't7_3', content: 'Portfolio website: Create professional page showing write-ups and projects', priority: 'medium' },
                     { id: 't7_4', content: 'Conference prep: Apply as a speaker for DragonJAR with a talk on "Developer to Security"', priority: 'medium' },
                     { id: 't7_5', content: 'Premium freelance: Target $1500 USD offering basic incident response', priority: 'low' },
-                ]
+                ],
+                resources: [
+                  { title: 'Blue Team Mindset', icon: 'BookOpen', items: ['Libro: "The Cuckoo\'s Egg" (Historia real de DFIR)', 'Herramienta: "Splunk Free" o "ELK Stack" para análisis de logs.', 'Plataforma: "LetsDefend.io" para practicar respuesta a incidentes.'] },
+                ],
             },
             {
                 id: 'month5',
@@ -324,7 +375,10 @@ export const roadmapData: Section[] = [
                     { id: 't8_3', content: 'Advanced HTB: Complete 5 medium difficulty machines', priority: 'medium' },
                     { id: 't8_4', content: 'Industry networking: Attend 8.8 conference (Chile) virtually', priority: 'medium' },
                     { id: 't8_5', content: 'Certification: Take the eJPT or Security+ exam', priority: 'low' },
-                ]
+                ],
+                resources: [
+                  { title: 'Cloud & Container Security', icon: 'Swords', items: ['Certificación: "AWS Certified Cloud Practitioner" (buen inicio)', 'Juego: "Flaws.cloud" y "Flaws2.cloud" para aprender de errores comunes en AWS.', 'Guía: "OWASP Kubernetes Top Ten".'] },
+                ],
             }
         ]
       },
@@ -341,7 +395,10 @@ export const roadmapData: Section[] = [
                     { id: 't9_3', content: 'Interview prep: Practice technical interviews, explain write-ups', priority: 'medium' },
                     { id: 't9_4', content: 'Salary negotiation: Research cybersecurity salaries in Colombia, prepare arguments', priority: 'medium' },
                     { id: 't9_5', content: 'Backup plan: Maintain freelance as secondary income ($500-1000/month)', priority: 'low' },
-                ]
+                ],
+                resources: [
+                  { title: 'Career Launch Kit', icon: 'Trophy', items: ['Guía de Salarios: "Robert Half Technology Salary Guide"', 'Plataforma: "Hired" para que las empresas te busquen a ti.', 'Libro: "Cracking the Coding Interview" (muchos conceptos aplican a entrevistas de seguridad).'] },
+                ],
             }
         ]
       }
@@ -351,4 +408,3 @@ export const roadmapData: Section[] = [
   writeupGuideContent,
   writeupImproverGuide,
 ];
-    
