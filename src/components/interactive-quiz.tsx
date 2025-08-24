@@ -53,6 +53,11 @@ function QuizForm({ topic, quiz }: { topic: string; quiz: NonNullable<GenerateQu
       [questionIndex]: value,
     }));
   };
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setSubmitted(true);
+  };
 
   const score = React.useMemo(() => {
     if (!submitted) return 0;
@@ -97,7 +102,7 @@ function QuizForm({ topic, quiz }: { topic: string; quiz: NonNullable<GenerateQu
   }
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+    <form onSubmit={handleSubmit}>
         <div className="space-y-6">
         {quiz.questions.map((q, index) => (
             <div key={index} className="p-4 rounded-lg border border-border">
@@ -126,7 +131,8 @@ export function InteractiveQuiz({ topic }: { topic: string }) {
 
   // This key forces React to re-mount the QuizForm component when a new quiz is generated
   // which resets its internal state (selectedAnswers, submitted).
-  const formKey = React.useMemo(() => state.quiz ? JSON.stringify(state.quiz.questions[0]) : topic, [state.quiz, topic]);
+  // Using the topic from the state ensures we get a new key when the same topic is regenerated.
+  const formKey = React.useMemo(() => state.quiz ? `${state.topic}-${state.quiz.questions[0].question}` : topic, [state.quiz, state.topic, topic]);
 
   if (!state.quiz) {
     return (
@@ -154,7 +160,7 @@ export function InteractiveQuiz({ topic }: { topic: string }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <QuizForm key={formKey} topic={topic} quiz={state.quiz} />
+        <QuizForm key={formKey} topic={state.topic || topic} quiz={state.quiz} />
       </CardContent>
     </Card>
   );
