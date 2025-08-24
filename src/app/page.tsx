@@ -110,13 +110,12 @@ function RoadmapApp() {
       setIsLoaded(true);
     };
 
-    if (user) {
-        loadUserData();
-    } else if (!loading) {
-        setIsLoaded(true);
+    if (!loading) {
+      loadUserData();
     }
     
   }, [user, loading]);
+
 
   const saveData = async (newCompletedTasks: Set<string>, newNotes: { [key: string]: string }) => {
     if (user && db) {
@@ -146,7 +145,7 @@ function RoadmapApp() {
   const currentWeek = totalTasks > 0 ? Math.min(24, Math.floor((completedTasks.size / (totalTasks / 24))) + 1) : 1;
   const estimatedSalary = 2000 + (progressPercentage * 40);
 
-  if (loading || (!isLoaded && user)) {
+  if (loading || !isLoaded) {
     return <div className="flex h-screen items-center justify-center bg-background text-foreground">Loading Roadmap...</div>;
   }
   
@@ -402,5 +401,3 @@ export default function Home() {
 
     return <RoadmapApp />;
 }
-
-    
