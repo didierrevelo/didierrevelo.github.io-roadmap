@@ -19,10 +19,6 @@ import { roadmapData, Section, Phase, Week, Task, Guide, ResourceCardData } from
 import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn, AlertTriangle } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { auth, db, isFirebaseConfigured } from '@/lib/firebase';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
 
 const sectionIcons: { [key: string]: React.ElementType } = {
   'Phase 1': DollarSign,
@@ -57,11 +53,9 @@ const priorityBadgeVariant = {
   low: 'default',
 } as const;
 
-function RoadmapApp() {
-  const [user, loading, error] = useAuthState(auth);
+export default function Home() {
   const [completedTasks, setCompletedTasks] = React.useState<Set<string>>(new Set());
   const [notes, setNotes] = React.useState<{ [key: string]: string }>({});
-  const [isLoaded, setIsLoaded] = React.useState(false);
 
   const allTasks = React.useMemo(() => {
     const tasks: Task[] = [];
@@ -79,51 +73,6 @@ function RoadmapApp() {
 
   const totalTasks = allTasks.length;
 
-  const signInWithGoogle = async () => {
-    if (!auth) return;
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Error signing in with Google", error);
-    }
-  };
-
-  const logOut = async () => {
-    if (!auth) return;
-    await signOut(auth);
-    setCompletedTasks(new Set());
-    setNotes({});
-  };
-
-  React.useEffect(() => {
-    const loadUserData = async () => {
-      if (user && db) {
-        const docRef = doc(db, 'users', user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setCompletedTasks(new Set(data.completedTasks || []));
-          setNotes(data.notes || {});
-        }
-      }
-      setIsLoaded(true);
-    };
-
-    if (!loading) {
-      loadUserData();
-    }
-    
-  }, [user, loading]);
-
-
-  const saveData = async (newCompletedTasks: Set<string>, newNotes: { [key: string]: string }) => {
-    if (user && db) {
-      const docRef = doc(db, 'users', user.uid);
-      await setDoc(docRef, { completedTasks: Array.from(newCompletedTasks), notes: newNotes }, { merge: true });
-    }
-  };
-
   const handleTaskToggle = (taskId: string) => {
     const newSet = new Set(completedTasks);
     if (newSet.has(taskId)) {
@@ -132,55 +81,17 @@ function RoadmapApp() {
       newSet.add(taskId);
     }
     setCompletedTasks(newSet);
-    saveData(newSet, notes);
   };
   
   const handleNoteChange = (weekId: string, value: string) => {
     const newNotes = { ...notes, [weekId]: value };
     setNotes(newNotes);
-    saveData(completedTasks, newNotes);
   };
 
   const progressPercentage = totalTasks > 0 ? Math.round((completedTasks.size / totalTasks) * 100) : 0;
   const currentWeek = totalTasks > 0 ? Math.min(24, Math.floor((completedTasks.size / (totalTasks / 24))) + 1) : 1;
   const estimatedSalary = 2000 + (progressPercentage * 40);
 
-  if (loading || !isLoaded) {
-    return <div className="flex h-screen items-center justify-center bg-background text-foreground">Loading Roadmap...</div>;
-  }
-  
-  if (error) {
-      return (
-        <div className="flex h-screen flex-col items-center justify-center bg-background text-destructive p-4">
-          <h2 className="text-2xl font-bold mb-4">Oops! Something went wrong.</h2>
-          <p className="text-center mb-2">
-            There was an error with the Firebase authentication.
-          </p>
-          <pre className="mt-4 p-4 bg-card rounded-md text-xs whitespace-pre-wrap">{error.message}</pre>
-        </div>
-      );
-  }
-
-  if (!user) {
-    return (
-      <main className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
-         <Card className="max-w-md w-full shadow-lg">
-           <CardHeader>
-             <CardTitle className="text-center text-2xl font-bold text-primary">Welcome!</CardTitle>
-             <CardDescription className="text-center text-muted-foreground">
-               Sign in to save your progress and access your personalized roadmap.
-             </CardDescription>
-           </CardHeader>
-           <CardContent>
-              <Button onClick={signInWithGoogle} className="w-full">
-                <LogIn className="mr-2 h-4 w-4" />
-                Sign In with Google
-              </Button>
-           </CardContent>
-         </Card>
-      </main>
-    );
-  }
 
   const renderTask = (task: Task) => (
     <div
@@ -317,7 +228,7 @@ function RoadmapApp() {
   return (
     <main className="min-h-screen bg-background text-foreground p-4 md:p-8">
       <div className="container mx-auto max-w-6xl">
-        <header className="flex justify-between items-center mb-8">
+        <header className="mb-8">
             <div className="text-left">
               <h1 className="font-headline text-4xl md:text-5xl font-extrabold text-primary mb-2">
                 Cybersecurity Roadmap Navigator
@@ -325,13 +236,6 @@ function RoadmapApp() {
               <p className="text-muted-foreground text-lg">
                 Didier Revelo's Journey: Developer → Security Professional
               </p>
-            </div>
-            <div className="flex items-center gap-4">
-                <div className="text-right">
-                    <p className="font-semibold">{user.displayName}</p>
-                    <p className="text-xs text-muted-foreground">{user.email}</p>
-                </div>
-                <Button variant="outline" onClick={logOut}>Sign Out</Button>
             </div>
         </header>
 
@@ -373,31 +277,4 @@ function RoadmapApp() {
       </div>
     </main>
   );
-}
-
-export default function Home() {
-    if (!isFirebaseConfigured) {
-        return (
-          <div className="flex h-screen flex-col items-center justify-center bg-background text-foreground p-8">
-            <AlertTriangle className="h-16 w-16 text-yellow-400 mb-6" />
-            <h2 className="text-3xl font-bold mb-4 text-center">Firebase Configuration Missing</h2>
-            <p className="text-center text-lg text-muted-foreground mb-8 max-w-2xl">
-              It looks like your Firebase environment variables are not set up correctly. Please add your Firebase project credentials to the <code className="bg-card px-2 py-1 rounded-md text-accent">.env</code> file to enable authentication and data storage.
-            </p>
-            <Card className="bg-card p-6 w-full max-w-2xl">
-                <CardHeader className="p-0 mb-4">
-                    <CardTitle className="text-primary">Action Required</CardTitle>
-                </CardHeader>
-                <CardContent className="p-0">
-                    <p className="mb-4 text-muted-foreground">1. Go to your Firebase project settings.</p>
-                    <p className="mb-4 text-muted-foreground">2. Under "Your apps", find your web app and select "Config".</p>
-                    <p className="mb-4 text-muted-foreground">3. Copy the key-value pairs from the <code className="text-xs bg-background p-1 rounded-sm">firebaseConfig</code> object.</p>
-                    <p className="text-muted-foreground">4. Paste them into the <code className="bg-background px-2 py-1 rounded-md text-accent">.env</code> file in your project root, prefixed with <code className="text-xs bg-background p-1 rounded-sm">NEXT_PUBLIC_</code>.</p>
-                </CardContent>
-            </Card>
-          </div>
-        );
-    }
-
-    return <RoadmapApp />;
 }
