@@ -15,10 +15,10 @@ import { CodeBlock } from '@/components/code-block';
 import { WriteupImprover } from '@/components/writeup-improver';
 import { InteractiveQuiz } from '@/components/interactive-quiz';
 import { roadmapData, Section, Phase, Week, Task, Guide, ResourceCardData } from '@/lib/data';
-import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn } from 'lucide-react';
+import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn, AlertTriangle } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { auth, db } from '@/lib/firebase';
+import { auth, db, isFirebaseConfigured } from '@/lib/firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup, signOut } from 'firebase/auth';
@@ -107,14 +107,16 @@ export default function Home() {
       }
       setIsLoaded(true);
     };
-
-    if (!loading) {
+    
+    if (isFirebaseConfigured && !loading) {
       loadUserData();
+    } else {
+        setIsLoaded(true);
     }
   }, [user, loading]);
 
   const saveData = async (newCompletedTasks: Set<string>, newNotes: { [key: string]: string }) => {
-    if (user) {
+    if (user && isFirebaseConfigured) {
       const docRef = doc(db, 'users', user.uid);
       await setDoc(docRef, { completedTasks: Array.from(newCompletedTasks), notes: newNotes }, { merge: true });
     }
@@ -140,9 +142,32 @@ export default function Home() {
   const progressPercentage = totalTasks > 0 ? Math.round((completedTasks.size / totalTasks) * 100) : 0;
   const currentWeek = totalTasks > 0 ? Math.min(24, Math.floor((completedTasks.size / (totalTasks / 24))) + 1) : 1;
   const estimatedSalary = 2000 + (progressPercentage * 40);
+  
+  if (!isFirebaseConfigured) {
+    return (
+      <div className="flex h-screen flex-col items-center justify-center bg-background text-destructive p-8">
+        <AlertTriangle className="h-16 w-16 text-yellow-400 mb-6" />
+        <h2 className="text-3xl font-bold mb-4 text-center text-foreground">Firebase Configuration Missing</h2>
+        <p className="text-center text-lg text-muted-foreground mb-8 max-w-2xl">
+          It looks like your Firebase environment variables are not set up correctly. Please add your Firebase project credentials to the <code className="bg-card px-2 py-1 rounded-md text-accent">.env</code> file to enable authentication and data storage.
+        </p>
+        <Card className="bg-card p-6 w-full max-w-2xl">
+            <CardHeader className="p-0 mb-4">
+                <CardTitle className="text-primary">Action Required</CardTitle>
+            </CardHeader>
+            <CardContent className="p-0">
+                <p className="mb-4 text-muted-foreground">1. Go to your Firebase project settings.</p>
+                <p className="mb-4 text-muted-foreground">2. Under "Your apps", find your web app and select "Config".</p>
+                <p className="mb-4 text-muted-foreground">3. Copy the key-value pairs from the <code className="text-xs bg-background p-1 rounded-sm">firebaseConfig</code> object.</p>
+                <p className="text-muted-foreground">4. Paste them into the <code className="bg-background px-2 py-1 rounded-md text-accent">.env</code> file in your project root, prefixed with <code className="text-xs bg-background p-1 rounded-sm">NEXT_PUBLIC_</code>.</p>
+            </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (loading || (!isLoaded && user)) {
-    return <div className="flex h-screen items-center justify-center bg-background text-foreground">Loading...</div>;
+    return <div className="flex h-screen items-center justify-center bg-background text-foreground">Loading Roadmap...</div>;
   }
   
   if (error) {
@@ -150,10 +175,7 @@ export default function Home() {
         <div className="flex h-screen flex-col items-center justify-center bg-background text-destructive p-4">
           <h2 className="text-2xl font-bold mb-4">Oops! Something went wrong.</h2>
           <p className="text-center mb-2">
-            It seems there's an issue with the Firebase configuration.
-          </p>
-          <p className="text-center text-sm text-muted-foreground">
-            Please make sure you have added your Firebase project credentials to the <code>.env</code> file.
+            There was an error with the Firebase authentication.
           </p>
           <pre className="mt-4 p-4 bg-card rounded-md text-xs whitespace-pre-wrap">{error.message}</pre>
         </div>
@@ -373,5 +395,3 @@ export default function Home() {
     </main>
   );
 }
-
-    

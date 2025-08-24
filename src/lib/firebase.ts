@@ -11,38 +11,26 @@ const firebaseConfig: FirebaseOptions = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Check that all required environment variables are set
-const requiredEnvVars = [
-  'NEXT_PUBLIC_FIREBASE_API_KEY',
-  'NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN',
-  'NEXT_PUBLIC_FIREBASE_PROJECT_ID',
-  'NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET',
-  'NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID',
-  'NEXT_PUBLIC_FIREBASE_APP_ID',
-];
-
-const missingEnvVars = requiredEnvVars.filter(key => !process.env[key]);
+// Check that all required environment variables are set and not empty
+const isFirebaseConfigured =
+  firebaseConfig.apiKey &&
+  firebaseConfig.authDomain &&
+  firebaseConfig.projectId &&
+  firebaseConfig.storageBucket &&
+  firebaseConfig.messagingSenderId &&
+  firebaseConfig.appId;
 
 let app;
 let auth;
 let db;
 
-if (missingEnvVars.length > 0) {
-  console.warn(
-    `Firebase configuration is incomplete. The following environment variables are missing: ${missingEnvVars.join(', ')}. Firebase services will be disabled.`
-  );
-  // Use a mock auth object if Firebase is not configured
-  auth = {
-    onAuthStateChanged: () => () => {}, // Return an empty unsubscribe function
-    // Add other mock methods if needed by useAuthState
-  } as any;
-  db = {} as any;
-} else {
+if (isFirebaseConfigured) {
   app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
   auth = getAuth(app);
   db = getFirestore(app);
+} else {
+    console.warn("Firebase configuration is incomplete. Firebase services will be disabled.");
 }
 
-export { app, auth, db };
 
-    
+export { app, auth, db, isFirebaseConfigured };
