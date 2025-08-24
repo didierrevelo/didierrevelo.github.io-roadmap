@@ -43,16 +43,12 @@ const prompt = ai.definePrompt({
 The quiz should be based on the following topic: **{{{topic}}}**
 
 **Instructions:**
-1.  **Generate 5 Questions:** Create a total of five questions.
-2.  **Question Variety:** The questions should be a mix of:
-    *   **Technical Knowledge:** (2-3 questions) Test fundamental concepts, tools, and commands.
-    *   **Scenario-Based:** (1-2 questions) Present a mini-scenario and ask for the best course of action.
-    *   **Professional/Integrity:** (1 question) Ask about ethics, communication with clients, or business-savvy decisions related to the topic.
-3.  **Multiple-Choice Format:** Each question must have exactly 4 options. One option must be clearly correct. The other options should be plausible but incorrect distractors.
-4.  **Answer and Explanation:** Provide the correct answer and a concise, clear explanation for why it's correct. The explanation should reinforce the learning concept.
-5.  **Engaging Tone:** The title and questions should be slightly gamified and encouraging.
+1.  **Generate 5 Relevant Questions:** Create a total of five high-quality questions that are directly relevant to the provided topic.
+2.  **Multiple-Choice Format:** Each question must have exactly 4 options. One option must be clearly correct. The other options should be plausible but incorrect distractors.
+3.  **Answer and Explanation:** For each question, provide the correct answer and a concise, clear explanation for why it's correct. The explanation should reinforce the learning concept.
+4.  **Engaging Tone:** The title and questions should be slightly gamified and encouraging.
 
-Make the quiz challenging but fair for someone actively learning this topic.`,
+Make the quiz challenging but fair for someone actively learning this topic. Ensure all 5 questions are generated.`,
 });
 
 const generateQuizFlow = ai.defineFlow(

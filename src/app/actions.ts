@@ -59,6 +59,22 @@ export type GenerateQuizState = {
   topic?: string;
 };
 
+async function generateQuizWithRetry(topic: string, retries = 1): Promise<GenerateQuizOutput> {
+  let lastError: any;
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const quiz = await generateQuiz({ topic });
+      return quiz;
+    } catch (error) {
+      lastError = error;
+      console.warn(`Quiz generation attempt ${i + 1} failed. Retrying...`);
+    }
+  }
+  console.error('Quiz Generation Error after all retries:', lastError);
+  throw lastError;
+}
+
+
 export async function getQuiz(
   prevState: GenerateQuizState,
   formData: FormData
@@ -77,10 +93,9 @@ export async function getQuiz(
   const topic = validatedFields.data.topic;
 
   try {
-    const quiz = await generateQuiz({ topic });
+    const quiz = await generateQuizWithRetry(topic);
     return { quiz, topic, error: undefined };
   } catch (error) {
-    console.error('Quiz Generation Error:', error);
     return {
       quiz: null,
       topic,
@@ -88,5 +103,3 @@ export async function getQuiz(
     };
   }
 }
-
-    
