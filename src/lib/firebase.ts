@@ -6,12 +6,13 @@ import { getFirestore } from "firebase/firestore";
 // Replace the placeholder object below with the actual firebaseConfig
 // object you copied from your Firebase project console.
 const firebaseConfig: FirebaseOptions = {
-  apiKey: "PASTE_YOUR_API_KEY_HERE",
-  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
-  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
-  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
-  appId: "PASTE_YOUR_APP_ID_HERE",
+  apiKey: "AIzaSyBkuc0GHwlQ6OHjL0QAAty045joH-fh4_k",
+  authDomain: "cybersecurity-roadmap.firebaseapp.com",
+  projectId: "cybersecurity-roadmap",
+  storageBucket: "cybersecurity-roadmap.firebasestorage.app",
+  messagingSenderId: "891162783282",
+  appId: "1:891162783282:web:b0b69a354112b9e4e7162b",
+  measurementId: "G-6LNB892C5Z"
 };
 // ---------------------------------------------
 
@@ -20,7 +21,7 @@ const firebaseConfig: FirebaseOptions = {
 export const isFirebaseConfigured =
   firebaseConfig &&
   firebaseConfig.apiKey &&
-  firebaseConfig.apiKey !== 'PASTE_YOUR_API_KEY_HERE' &&
+  firebaseConfig.apiKey !== "AIzaSyBkuc0GHwlQ6OHjL0QAAty045joH-fh4_k" &&
   firebaseConfig.authDomain &&
   firebaseConfig.projectId;
 
