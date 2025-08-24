@@ -168,6 +168,67 @@ const writeupImproverGuide: Guide = {
     description: 'Paste your write-up below and get AI-powered suggestions for improving completeness, clarity, and actionable insights for remediation.',
 };
 
+const pythonPlanContent: Guide = {
+  id: 'python-plan',
+  title: '🐍 Plan de Estudios de Python para Ciberseguridad',
+  gradient: 'bg-gradient-to-br from-yellow-400 to-orange-500',
+  description: 'Python es la navaja suiza de la ciberseguridad. Esta guía te llevará de cero a crear tus propias herramientas de hacking y automatización.',
+  content: [
+    {
+      title: 'Módulo 1: Fundamentos Esenciales de Python',
+      points: [
+        '<strong>Sintaxis y Tipos de Datos:</strong> Variables, strings, números, listas, diccionarios.',
+        '<strong>Estructuras de Control:</strong> Condicionales (if/else), bucles (for/while).',
+        '<strong>Funciones y Módulos:</strong> Cómo escribir y reutilizar código.',
+        '<strong>Manejo de Archivos:</strong> Leer y escribir archivos (logs, wordlists, reportes).',
+        '<strong>Manejo de Errores:</strong> Uso de try/except para crear scripts robustos.'
+      ]
+    },
+    {
+      title: 'Módulo 2: Librerías Clave para Hacking',
+      points: [
+        '<code>requests</code>: Para interactuar con servicios web y APIs (fuzzing, enumeración).',
+        '<code>BeautifulSoup4</code>: Para parsear HTML y extraer información (web scraping).',
+        '<code>Scapy</code>: Para crear, enviar y analizar paquetes de red (escaneo, spoofing).',
+        '<code>python-nmap</code>: Para automatizar escaneos de red con Nmap.',
+        '<code>pwntools</code>: Framework esencial para desarrollo de exploits y CTFs.'
+      ]
+    },
+    {
+      title: 'Módulo 3: Ruta de Aprendizaje Práctica',
+      points: [
+        '<strong>Semana 1-2:</strong> Automatización de Tareas. Escribe un script que organice tus archivos de pentesting por fecha y tipo.',
+        '<strong>Semana 3-4:</strong> Scripting de Red. Crea un escáner de puertos básico usando sockets y luego mejóralo con <code>python-nmap</code>.',
+        '<strong>Semana 5-6:</strong> Web Hacking. Desarrolla un enumerador de subdominios y un buscador de directorios ocultos.',
+        '<strong>Semana 7-8:</strong> Análisis de Datos. Escribe un script que parsee logs de Apache para encontrar patrones de ataque como SQLi o XSS.'
+      ]
+    }
+  ],
+  resources: [
+    {
+      title: 'Recursos para Empezar',
+      icon: 'BookOpen',
+      items: [
+        'Libro: "Black Hat Python, 2nd Edition" (El libro de referencia)',
+        'Libro: "Automate the Boring Stuff with Python" (Excelente para principiantes)',
+        'Curso: "Python for Pentesters" en TCM Security',
+        'Canal de YouTube: The Cyber Mentor tiene excelentes videos de scripting.',
+      ],
+    },
+    {
+      title: 'Proyectos para tu Portafolio',
+      icon: 'Terminal',
+      items: [
+        '<strong>Hash Cracker:</strong> Un script que intente romper hashes usando una wordlist.',
+        '<strong>Keylogger Básico:</strong> Un programa que registre las pulsaciones de teclas (úsalo de forma ética y con permiso).',
+        '<strong>Extractor de Metadatos:</strong> Un script que extraiga datos EXIF de imágenes y metadatos de PDFs.',
+        '<strong>Fuzzer de Parámetros Web:</strong> Un script que descubra parámetros GET/POST ocultos en una aplicación web.',
+      ],
+    },
+  ],
+};
+
+
 export const roadmapData: Section[] = [
   {
     id: 'roadmap',
@@ -181,7 +242,6 @@ export const roadmapData: Section[] = [
           {
             id: 'week1',
             title: 'Week 1: Setup and First Earnings',
-            quizTopic: 'Freelancing, LinkedIn Optimization, and Hacking Lab Setup',
             description: 'Lay the groundwork for your freelance career and start your practical cybersecurity training.',
             tasks: [
               { id: 't1_1', content: 'Create compelling freelance profiles on Workana, Upwork, and Freelancer. Focus your bio on "Security Code Review" and "Secure Development Practices". Showcase your developer background as a strength.', priority: 'high' },
@@ -205,7 +265,6 @@ export const roadmapData: Section[] = [
           {
             id: 'week2',
             title: 'Week 2: First Projects and HTB Basics',
-            quizTopic: 'Hack The Box Methodology, Networking Fundamentals, and Nmap',
             description: 'Gain practical experience with your first paid project and begin your journey on Hack The Box.',
             tasks: [
                 { id: 't2_1', content: 'Land and complete your first freelance project. Over-deliver on quality and communication. Upon completion, politely ask for a positive review or testimonial.', priority: 'high' },
@@ -229,7 +288,6 @@ export const roadmapData: Section[] = [
           {
             id: 'week3',
             title: 'Week 3: Scaling Freelance + Web Security',
-            quizTopic: 'OWASP Top 10, Burp Suite Basics, and Web Enumeration',
             description: 'Increase your freelance income while diving into web application security, a natural fit for your developer skills.',
             tasks: [
                 { id: 't3_1', content: 'Set a freelance income goal of $500 USD for the month. Apply to 15 more projects, refining your proposals based on what you\'ve learned.', priority: 'high' },
@@ -253,7 +311,6 @@ export const roadmapData: Section[] = [
           {
             id: 'week4',
             title: 'Week 4: Consolidation and Specialization',
-            quizTopic: 'Career Specializations, Portfolio Building, and Personal Branding',
             description: 'Review your progress, solidify your knowledge, and start thinking about your long-term career path.',
             tasks: [
                 { id: 't4_1', content: 'Review your finances. Did you hit your $500-800 USD goal? Analyze what worked and create a plan to increase your rates or efficiency for Month 2.', priority: 'high' },
@@ -283,7 +340,6 @@ export const roadmapData: Section[] = [
           {
             id: 'month2',
             title: 'Month 2: Web Application Security (Weeks 5-8)',
-            quizTopic: 'Advanced Web Attacks, PortSwigger Academy, SQL Injection, and XSS',
             description: 'Deep dive into web vulnerabilities, leveraging your development background for a strong AppSec foundation.',
             tasks: [
                 { id: 't5_1', content: 'Scale your freelance work. Target $1000 USD this month by specializing in "security code review" and "API pentesting" services.', priority: 'high' },
@@ -300,7 +356,6 @@ export const roadmapData: Section[] = [
           {
             id: 'month3',
             title: 'Month 3: Network Security & Pentesting (Weeks 9-12)',
-            quizTopic: 'Active Directory Pentesting, Metasploit Framework, and eJPT Preparation',
             description: 'Expand from web to network-level attacks, including the critical area of Active Directory.',
             tasks: [
                 { id: 't6_1', content: 'Complete the "Pentesting Fundamentals" and "Network Enumeration with Nmap" modules on HTB Academy.', priority: 'high' },
@@ -323,7 +378,6 @@ export const roadmapData: Section[] = [
             {
                 id: 'month4',
                 title: 'Month 4: Incident Response & Blue Team (Weeks 13-16)',
-                quizTopic: 'Incident Response Process, SIEM analysis with ELK Stack, and Defensive Mindset',
                 description: 'Understand the defensive side of security to become a more effective attacker and well-rounded professional.',
                 tasks: [
                     { id: 't7_1', content: 'Learn the fundamentals of defense. Complete the HTB Academy "Incident Handling Process" module.', priority: 'high' },
@@ -339,7 +393,6 @@ export const roadmapData: Section[] = [
             {
                 id: 'month5',
                 title: 'Month 5: Cloud Security & Modern Threats (Weeks 17-20)',
-                quizTopic: 'AWS Cloud Security, Container Security with Docker & Kubernetes',
                 description: 'Focus on high-demand, modern skills in cloud and container security.',
                 tasks: [
                     { id: 't8_1', content: 'Learn AWS fundamentals. Complete the "Introduction to Cloud Computing" module in HTB Academy and the AWS Skills Builder "Cloud Essentials" learning path.', priority: 'high' },
@@ -361,7 +414,6 @@ export const roadmapData: Section[] = [
             {
                 id: 'month6',
                 title: 'Month 6: Full-Time Security Professional (Weeks 21-24)',
-                quizTopic: 'Resume Optimization, Interview Skills, and Salary Negotiation',
                 description: 'Transition from freelancing and studying to landing your first full-time role in cybersecurity.',
                 tasks: [
                     { id: 't9_1', content: 'Optimize your resume. Tailor your CV for cybersecurity roles. Use the STAR method (Situation, Task, Action, Result) to describe your freelance projects and HTB experience.', priority: 'high' },
@@ -380,5 +432,6 @@ export const roadmapData: Section[] = [
   },
   englishPlanContent,
   writeupGuideContent,
+  pythonPlanContent,
   writeupImproverGuide,
 ];

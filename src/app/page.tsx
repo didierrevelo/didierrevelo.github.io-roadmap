@@ -14,10 +14,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { CodeBlock } from '@/components/code-block';
 import { WriteupImprover } from '@/components/writeup-improver';
-import { InteractiveQuiz } from '@/components/interactive-quiz';
 import { roadmapData } from '@/lib/data';
 import type { Section, Phase, Week, Task, Guide, ResourceCardData } from '@/lib/types';
-import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn, AlertTriangle } from 'lucide-react';
+import { DollarSign, BookOpen, Briefcase, Search, FileText, Languages, Swords, Copy, CheckCircle, ChevronRight, ListTodo, Calendar, Trophy, ArrowRight, BrainCircuit, Mic, Headphones, Settings, StickyNote, LogIn, AlertTriangle, Code, Terminal } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
@@ -30,6 +29,7 @@ const sectionIcons: { [key: string]: React.ElementType } = {
   'English Plan': Languages,
   'HTB Plan': Swords,
   'Write-up Template': Copy,
+  'Python Plan': Code,
 };
 
 const resourceIcons: { [key: string]: React.ElementType } = {
@@ -40,6 +40,8 @@ const resourceIcons: { [key: string]: React.ElementType } = {
   Swords,
   Languages,
   Trophy,
+  Code,
+  Terminal,
 };
 
 const priorityStyles = {
@@ -141,6 +143,20 @@ export default function Home() {
   const renderGuide = (guide: Guide) => (
     <>
       <p className="text-muted-foreground mb-4">{guide.description}</p>
+      {guide.content && (
+        <div className="prose prose-sm max-w-none dark:prose-invert">
+          {guide.content.map((item, index) => (
+            <div key={index}>
+              <h3 className="font-headline text-lg font-semibold mt-6 mb-2 text-primary">{item.title}</h3>
+              <ul className="space-y-2 list-disc list-inside text-muted-foreground">
+                {item.points.map((point, pIndex) => (
+                  <li key={pIndex} dangerouslySetInnerHTML={{ __html: point }}></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
       {guide.structure && (
         <>
           <h3 className="font-headline text-lg font-semibold mt-6 mb-2 text-primary">🏗️ Standard Write-up Structure</h3>
@@ -180,8 +196,6 @@ export default function Home() {
             {week.tasks.map(renderTask)}
             {week.resources && <div className="flex flex-wrap gap-4 my-4">{week.resources.map(renderResourceCard)}</div>}
             
-            <InteractiveQuiz topic={week.quizTopic || week.title} />
-
             <div className="mt-6">
               <h4 className="font-semibold text-base mb-2 flex items-center gap-2 text-primary">
                 <StickyNote className="w-5 h-5"/>
