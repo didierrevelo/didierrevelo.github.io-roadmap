@@ -42,7 +42,7 @@ export function WriteupImprover() {
     }
 
     try {
-      const response = await fetch('/roadmap/api/improve-writeup', {
+      const response = await fetch('/api/improve-writeup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export function WriteupImprover() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+        throw new Error(errorData.error || 'Failed to get suggestions.');
       }
 
       const result = await response.json();

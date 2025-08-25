@@ -1,38 +1,18 @@
-import { improveWriteup, type ImproveWriteupInput } from '@/ai/flows/improve-writeup-gen-ai';
-import { NextResponse } from 'next/server';
-import { z } from 'zod';
+import { improveWriteup } from '@/ai/flows/improve-writeup-gen-ai';
+import { NextRequest, NextResponse } from 'next/server';
 
-export const dynamic = 'force-static';
-
-const improveWriteupSchema = z.object({
-  writeupText: z.string().min(50),
-});
-
-export async function GET(request: Request) {
-  return NextResponse.json({ message: 'This endpoint is for improving write-ups. Use POST.' });
-}
-
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await request.json();
-    const validatedFields = improveWriteupSchema.safeParse(body);
+    const { writeupText } = await req.json();
 
-    if (!validatedFields.success) {
-      return NextResponse.json(
-        { error: 'Invalid input. Write-up must be at least 50 characters.' },
-        { status: 400 }
-      );
+    if (!writeupText) {
+      return NextResponse.json({ error: 'writeupText is required' }, { status: 400 });
     }
-
-    const result = await improveWriteup({ writeupText: validatedFields.data.writeupText });
+    
+    const result = await improveWriteup({ writeupText });
 
     return NextResponse.json(result);
-  } catch (error) {
-    console.error('API Error in /api/improve-writeup:', error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    return NextResponse.json(
-        { error: `An internal server error occurred: ${errorMessage}` }, 
-        { status: 500 }
-    );
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message || 'An unexpected error occurred.' }, { status: 500 });
   }
 }

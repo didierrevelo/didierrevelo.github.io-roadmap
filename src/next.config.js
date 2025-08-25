@@ -9,11 +9,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  output: 'export',
-  images: {
-    unoptimized: true,
-  },
-  basePath: '/roadmap',
 };
 
 module.exports = nextConfig;
