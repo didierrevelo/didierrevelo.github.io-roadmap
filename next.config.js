@@ -11,8 +11,8 @@ const nextConfig = {
   },
   // Add the following configuration for GitHub Pages
   output: 'export',
-  // IMPORTANT: Replace 'your-repo-name' with the name of your GitHub repository.
-  basePath: process.env.NODE_ENV === 'production' ? '/your-repo-name' : '',
+  // IMPORTANT: Replace 'cybersecurity-roadmap-navigator' with the name of your GitHub repository.
+  basePath: process.env.NODE_ENV === 'production' ? '/cybersecurity-roadmap-navigator' : '',
   images: {
     unoptimized: true,
   },
