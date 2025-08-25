@@ -24,18 +24,51 @@ export function WriteupImprover() {
     setLoading(true);
     setError(null);
     setSuggestions(null);
-    
-    // NOTE: AI functionality is temporarily disabled to allow for static export.
-    // This will be re-enabled using a different method in the future.
-    setTimeout(() => {
-      setError("AI functionality is temporarily disabled.");
+
+    if (!textAreaRef.current) return;
+
+    const validation = improveWriteupSchema.safeParse({ writeupText: textAreaRef.current.value });
+
+    if (!validation.success) {
+      const errorMessage = validation.error.errors[0]?.message || 'Invalid input.';
+      setError(errorMessage);
       toast({
         variant: 'destructive',
-        title: 'Feature Disabled',
-        description: 'The AI write-up improver is currently unavailable in this version.',
+        title: 'Validation Error',
+        description: errorMessage,
       });
       setLoading(false);
-    }, 1000);
+      return;
+    }
+
+    try {
+      const response = await fetch('/roadmap/api/improve-writeup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ writeupText: validation.data.writeupText }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setSuggestions(result.suggestions);
+
+    } catch (e: any) {
+      const errorMessage = e.message || 'An unexpected error occurred.';
+      setError(errorMessage);
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: errorMessage,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
