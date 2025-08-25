@@ -12,8 +12,8 @@ const nextConfig = {
   output: 'export',
   // Add the following configuration for GitHub Pages
   // IMPORTANT: Replace 'didierrevelo.github.io-roadmap' with the name of your GitHub repository.
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/didierrevelo.github.io-roadmap' : undefined,
-  basePath: process.env.NODE_ENV === 'production' ? '/didierrevelo.github.io-roadmap' : undefined,
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/roadmap' : undefined,
+  basePath: process.env.NODE_ENV === 'production' ? '/roadmap' : undefined,
   images: {
     unoptimized: true,
   },
