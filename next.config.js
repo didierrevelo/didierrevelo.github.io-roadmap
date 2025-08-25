@@ -10,7 +10,6 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   // Add the following configuration for GitHub Pages
-  output: 'export',
   // IMPORTANT: Replace 'didierrevelo.github.io-roadmap' with the name of your GitHub repository.
   basePath: process.env.NODE_ENV === 'production' ? '/didierrevelo.github.io-roadmap' : '',
   images: {
