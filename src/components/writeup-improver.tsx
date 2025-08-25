@@ -1,13 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { improveWriteup, type ImproveWriteupOutput } from '@/ai/flows/improve-writeup-gen-ai';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { BrainCircuit, Lightbulb, TriangleAlert } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { BrainCircuit, Lightbulb } from 'lucide-react';
 import { z } from 'zod';
 
 const improveWriteupSchema = z.object({
@@ -26,61 +24,18 @@ export function WriteupImprover() {
     setLoading(true);
     setError(null);
     setSuggestions(null);
-
-    const formData = new FormData(event.currentTarget);
-    const writeupText = formData.get('writeupText') as string;
-
-    const validatedFields = improveWriteupSchema.safeParse({
-      writeupText,
-    });
-
-    if (!validatedFields.success) {
-      const errorMessage = validatedFields.error.flatten().fieldErrors.writeupText?.[0];
-      setError(errorMessage || 'Invalid input.');
-      if (textAreaRef.current) {
-        textAreaRef.current.focus();
-      }
+    
+    // NOTE: AI functionality is temporarily disabled to allow for static export.
+    // This will be re-enabled using a different method in the future.
+    setTimeout(() => {
+      setError("AI functionality is temporarily disabled.");
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: errorMessage,
-      })
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('/api/improve-writeup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ writeupText: validatedFields.data.writeupText }),
+        title: 'Feature Disabled',
+        description: 'The AI write-up improver is currently unavailable in this version.',
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to get suggestions.');
-      }
-      
-      const result: ImproveWriteupOutput = await response.json();
-      setSuggestions(result.suggestions);
-      toast({
-        title: 'Success!',
-        description: 'Suggestions generated successfully.',
-      })
-    } catch (err) {
-      console.error('API Error:', err);
-      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.';
-      setError('An error occurred while generating suggestions. Please try again later.');
-      toast({
-        variant: 'destructive',
-        title: 'API Error',
-        description: errorMessage,
-      })
-    } finally {
       setLoading(false);
-    }
+    }, 1000);
   };
 
   return (
