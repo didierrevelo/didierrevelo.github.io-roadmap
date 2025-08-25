@@ -13,7 +13,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: '/roadmap',
+  assetPrefix: '/roadmap',
 };
 
 module.exports = nextConfig;

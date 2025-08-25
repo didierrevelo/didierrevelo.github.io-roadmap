@@ -2,9 +2,15 @@ import { improveWriteup, type ImproveWriteupInput } from '@/ai/flows/improve-wri
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
+export const dynamic = 'force-static';
+
 const improveWriteupSchema = z.object({
   writeupText: z.string().min(50),
 });
+
+export async function GET(request: Request) {
+  return NextResponse.json({ message: 'This endpoint is for improving write-ups. Use POST.' });
+}
 
 export async function POST(request: Request) {
   try {
