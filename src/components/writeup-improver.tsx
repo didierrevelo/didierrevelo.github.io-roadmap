@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { improveWriteup, type ImproveWriteupInput } from '@/ai/flows/improve-writeup-gen-ai';
+import { improveWriteup, type ImproveWriteupOutput } from '@/ai/flows/improve-writeup-gen-ai';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -28,8 +28,10 @@ export function WriteupImprover() {
     setSuggestions(null);
 
     const formData = new FormData(event.currentTarget);
+    const writeupText = formData.get('writeupText') as string;
+
     const validatedFields = improveWriteupSchema.safeParse({
-      writeupText: formData.get('writeupText'),
+      writeupText,
     });
 
     if (!validatedFields.success) {
@@ -48,19 +50,32 @@ export function WriteupImprover() {
     }
 
     try {
-      const result = await improveWriteup({ writeupText: validatedFields.data.writeupText });
+      const response = await fetch('/api/improve-writeup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ writeupText: validatedFields.data.writeupText }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to get suggestions.');
+      }
+      
+      const result: ImproveWriteupOutput = await response.json();
       setSuggestions(result.suggestions);
       toast({
         title: 'Success!',
         description: 'Suggestions generated successfully.',
       })
     } catch (err) {
-      console.error('AI Error:', err);
+      console.error('API Error:', err);
       const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred.';
       setError('An error occurred while generating suggestions. Please try again later.');
       toast({
         variant: 'destructive',
-        title: 'AI Error',
+        title: 'API Error',
         description: errorMessage,
       })
     } finally {
